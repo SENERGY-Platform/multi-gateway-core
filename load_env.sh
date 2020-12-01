@@ -32,6 +32,7 @@ conf_vars=(
     "SCS_CONNECTORCONF_API=host:localhost;hub_endpt:device-manager/hubs;device_endpt:device-manager/local-devices;tls:False"
     "MGW_DOCKER_SUBNET=10.40.0.0/16"
     "GC_GOSUND_PREFIX="
+    "GC_DEVICES_TYPE="
 )
 
 env_vars=(
