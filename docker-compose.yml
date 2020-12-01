@@ -37,7 +37,7 @@ services:
       - DMCONF_CLIENT_LW_TOPIC=device/+/lw
       - DMCONF_CLIENT_KEEP_ALIVE=10
       - DMCONF_CLIENT_RECONNECT=5
-    links:
+    depends_on:
       - message-broker
     restart: unless-stopped
     networks:
@@ -68,7 +68,7 @@ services:
       - CONNECTORCONF_LOGGER=level:debug
       - CONNECTORCONF_API=${SCS_CONNECTORCONF_API}
       - MODULE_ID=senergy-connector
-    links:
+    depends_on:
       - message-broker
       - device-management-service
     restart: unless-stopped
@@ -94,8 +94,9 @@ services:
       - TDCCONF_DEVICES_NAME=Gosund SP111
       - TDCCONF_DEVICES_LW_TOPIC=LWT
       - MODULE_ID=${GC_GOSUND_PREFIX}
-    links:
+    depends_on:
       - message-broker
+      - device-management-service
     restart: unless-stopped
     networks:
       - mgw-network
@@ -107,7 +108,7 @@ services:
       - BROKER_ADDRESS=tcp://message-broker:1883
     volumes:
       - analytics-fog-master-data:/root/data
-    links:
+    depends_on:
       - message-broker
     restart: unless-stopped
     networks:
@@ -125,7 +126,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - analytics-fog-agent-data:/root/data
-    links:
+    depends_on:
       - message-broker
     restart: unless-stopped
     networks:
@@ -146,8 +147,9 @@ services:
     devices:
       - '/dev/ttyAMA0:/dev/ttyAMA0'
     restart: unless-stopped
-    links:
+    depends_on:
       - message-broker
+      - device-management-service
     networks:
       - mgw-network
 
