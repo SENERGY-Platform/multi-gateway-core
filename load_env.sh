@@ -38,6 +38,7 @@ conf_vars=(
 env_vars=(
     "MGW_CORE_PATH=$core_dir"
     "MGW_CORE_DIR_NAME=${core_dir##*/}"
+    "MGW_HOST_IP=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)"
 )
 
 
