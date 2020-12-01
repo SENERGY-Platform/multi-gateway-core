@@ -65,7 +65,7 @@ WantedBy=default.target
 
 
 log() {
-    if [ $1 -lt $CC_HUB_UPDATER_LOG_LVL ]; then
+    if [ $1 -lt $MGW_UPDATER_LOG_LVL ]; then
         return 0
     fi
     logger=""
@@ -75,10 +75,10 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $CC_HUB_PATH/logs/updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $MGW_CORE_PATH/logs/updater.log 2>&1
             first=0
         else
-            echo "$line" >> $CC_HUB_PATH/logs/updater.log 2>&1
+            echo "$line" >> $MGW_CORE_PATH/logs/updater.log 2>&1
         fi
     done
 }
@@ -148,7 +148,7 @@ redeployContainer() {
 
 
 getToken() {
-    curl --silent "$CC_DOCKER_HUB_AUTH?scope=repository:$1:pull&service=registry.docker.io" | jq -r '.token'
+    curl --silent "$MGW_DOCKER_HUB_AUTH?scope=repository:$1:pull&service=registry.docker.io" | jq -r '.token'
 }
 
 
@@ -163,11 +163,11 @@ updateHub() {
             img=$(echo $img_info | cut -d':' -f1)
             img_name=$(echo $img_info | cut -d'/' -f2 | cut -d':' -f1)
             img_tag=$(echo $img_info | cut -d':' -f2)
-            if grep -q "$img" $CC_HUB_PATH/docker-compose.yml; then
-                if curl --silent --fail "$CC_DOCKER_HUB_API" > /dev/null; then
+            if grep -q "$img" $MGW_CORE_PATH/docker-compose.yml; then
+                if curl --silent --fail "$MGW_DOCKER_HUB_API" > /dev/null; then
                     echo "($img_name) checking for updates ..." | log 1
                     token=$(getToken $img)
-                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" --header "Authorization: Bearer $token" "$CC_DOCKER_HUB_API/$img/manifests/$img_tag" | jq -r '.config.digest')
+                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" --header "Authorization: Bearer $token" "$MGW_DOCKER_HUB_API/$img/manifests/$img_tag" | jq -r '.config.digest')
                     if ! [[ $remote_img_hash == "null" ]]; then
                         if ! [ "$img_hash" = "$remote_img_hash" ]; then
                             echo "($img_name) pulling new image ..." | log 1
@@ -190,7 +190,7 @@ updateHub() {
                       echo "($img_name) retrieving remote hash failed" | log 3
                     fi
                 else
-                    echo "($img_name) can't reach docker hub '$CC_DOCKER_HUB_API'" | log 3
+                    echo "($img_name) can't reach docker hub '$MGW_DOCKER_HUB_API'" | log 3
                 fi
             fi
         done
@@ -223,10 +223,10 @@ initCheck() {
 
 strtMsg() {
     echo "***************** starting client-connector-hub-updater *****************" | log 4
-    echo "running in: '$CC_HUB_PATH'" | log 4
-    echo "check every: '$CC_HUB_UPDATER_DELAY' seconds" | log 4
+    echo "running in: '$MGW_CORE_PATH'" | log 4
+    echo "check every: '$MGW_UPDATER_DELAY' seconds" | log 4
     echo "environment: '$CC_HUB_ENVIRONMENT'" | log 4
-    echo "log level: '${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}'" | log 4
+    echo "log level: '${log_lvl[$MGW_UPDATER_LOG_LVL]}'" | log 4
     echo "PID: '$$'" | log 4
 }
 
@@ -237,7 +237,7 @@ if [[ -z "$1" ]]; then
     initCheck
     strtMsg
     while true; do
-        sleep $CC_HUB_UPDATER_DELAY
+        sleep $MGW_UPDATER_DELAY
         rotateLog
         if updateSelf; then
             echo "(hub-updater) restarting ..." | log 1
