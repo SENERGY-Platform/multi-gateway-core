@@ -22,6 +22,7 @@ services:
       - mgw-network
 
   device-management-service:
+    container_name: device-management-service
     image: smartenergyplatform/device-manager:${MGW_ENVIRONMENT}
     ports:
       - "7002:80"
@@ -43,6 +44,7 @@ services:
       - mgw-network
 
   senergy-connector-service:
+    container_name: senergy-connector-service
     image: smartenergyplatform/senergy-connector:${MGW_ENVIRONMENT}
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
@@ -74,6 +76,7 @@ services:
       - mgw-network
 
   gosund-connector:
+    container_name: gosund-connector
     image: smartenergyplatform/gosund-connector:${MGW_ENVIRONMENT}
     environment:
       - TDCCONF_MB_HOST=message-broker
@@ -98,6 +101,7 @@ services:
       - mgw-network
 
   analytics-fog-master:
+    container_name: analytics-fog-master
     image: ghcr.io/senergy-platform/analytics-fog-master:latest
     environment:
       - BROKER_ADDRESS=tcp://message-broker:1883
@@ -110,6 +114,7 @@ services:
       - mgw-network
 
   analytics-fog-agent:
+    container_name: analytics-fog-agent
     image: smartenergyplatform/analytics-fog-agent:latest
     environment:
       - BROKER_HOST=message-broker
@@ -127,6 +132,7 @@ services:
       - mgw-network
 
   z-way:
+    container_name: z-way-connector
     image: smartenergyplatform/z-way-cc:dev
     expose:
       - 8083
