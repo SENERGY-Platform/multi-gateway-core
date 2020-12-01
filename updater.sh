@@ -94,27 +94,27 @@ rotateLog() {
 
 
 updateSelf() {
-    echo "(hub-updater) checking for updates ..." | log 1
+    echo "(core-updater) checking for updates ..." | log 1
     update_result=$(git remote update 3>&1 1>&2 2>&3 >/dev/null)
     if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then
         status_result=$(git status)
         if [[ $status_result = *"behind"* ]]; then
-            echo "(hub-updater) downloading and applying updates ..." | log 1
+            echo "(core-updater) downloading and applying updates ..." | log 1
             pull_result=$(git pull 3>&1 1>&2 2>&3 >/dev/null)
             if ! [[ $pull_result = *"fatal"* ]] || ! [[ $pull_result = *"error"* ]]; then
-                echo "(hub-updater) $(./load_env.sh update)" | log 1
-                echo "(hub-updater) update success" | log 1
+                echo "(core-updater) $(./load_env.sh update)" | log 1
+                echo "(core-updater) update success" | log 1
                 return 0
             else
-                echo "(hub-updater) $pull_result" | log 3
+                echo "(core-updater) $pull_result" | log 3
                 return 1
             fi
         else
-            echo "(hub-updater) up-to-date" | log 1
+            echo "(core-updater) up-to-date" | log 1
             return 2
         fi
     else
-        echo "(hub-updater) checking for updates - failed" | log 3
+        echo "(core-updater) checking for updates - failed" | log 3
         return 1
     fi
 }
@@ -152,9 +152,9 @@ getToken() {
 }
 
 
-updateHub() {
+updateCore() {
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
-        echo "(hub-updater) checking for images to update ..." | log 1
+        echo "(core-updater) checking for images to update ..." | log 1
         images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
@@ -196,7 +196,7 @@ updateHub() {
         done
         return 0
     else
-      echo "(hub-updater) docker engine not running" | log 3
+      echo "(core-updater) docker engine not running" | log 3
       return 1
     fi
 }
@@ -240,7 +240,7 @@ if [[ -z "$1" ]]; then
         sleep $MGW_UPDATER_DELAY
         rotateLog
         if updateSelf; then
-            echo "(hub-updater) restarting ..." | log 1
+            echo "(core-updater) restarting ..." | log 1
             break
         fi
         updateHub
