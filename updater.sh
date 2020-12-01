@@ -38,14 +38,14 @@ Restart=always
 
 [Install]
 WantedBy=default.target
-" > /etc/systemd/system/cc-hub-updater.service
+" > /etc/systemd/system/mgw-updater.service
     if [[ $? -eq 0 ]]; then
-        if chmod 664 /etc/systemd/system/cc-hub-updater.service; then
+        if chmod 664 /etc/systemd/system/mgw-updater.service; then
             echo "successfully created service"
             echo "reloading daemon ..."
             if systemctl daemon-reload; then
                 echo "enabling systemd service ..."
-                if systemctl enable cc-hub-updater.service; then
+                if systemctl enable mgw-updater.service; then
                     echo "successfully enabled service"
                     return 0
                 else
