@@ -131,7 +131,7 @@ services:
     networks:
       - mgw-network
 
-  z-way:
+  z-way-connector:
     container_name: z-way-connector
     image: smartenergyplatform/z-way-cc:dev
     expose:
