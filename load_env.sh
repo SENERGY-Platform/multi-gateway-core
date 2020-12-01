@@ -25,13 +25,13 @@ conf_vars=(
     "MGW_DOCKER_HUB_AUTH=https://auth.docker.io/token"
     "MGW_UPDATER_DELAY=600"
     "MGW_UPDATER_LOG_LVL=1"
-    "CC_MULTI_HUB_CONNECTORCONF_CONNECTOR=host:localhost;port:1883;tls:False;enable_fog:True"
-    "CC_MULTI_HUB_CONNECTORCONF_AUTH=host:localhost;path:auth/realms/master/protocol/openid-connect/token;tls:True;id:client-id"
-    "CC_MULTI_HUB_CONNECTORCONF_CREDENTIALS=user:user;pw:pw"
-    "CC_MULTI_HUB_CONNECTORCONF_HUB=name:multi-hub"
-    "CC_MULTI_HUB_CONNECTORCONF_API=host:localhost;hub_endpt:device-manager/hubs;device_endpt:device-manager/local-devices;tls:False"
-    "CC_MULTI_HUB_SUBNET=10.40.0.0/16"
-    "CC_MULTI_HUB_GOSUND_PREFIX="
+    "SCS_CONNECTORCONF_CONNECTOR=host:localhost;port:1883;tls:False;enable_fog:True"
+    "SCS_CONNECTORCONF_AUTH=host:localhost;path:auth/realms/master/protocol/openid-connect/token;tls:True;id:client-id"
+    "SCS_CONNECTORCONF_CREDENTIALS=user:user;pw:pw"
+    "SCS_CONNECTORCONF_HUB=name:multi-hub"
+    "SCS_CONNECTORCONF_API=host:localhost;hub_endpt:device-manager/hubs;device_endpt:device-manager/local-devices;tls:False"
+    "MGW_DOCKER_SUBNET=10.40.0.0/16"
+    "GC_GOSUND_PREFIX="
 )
 
 env_vars=(
