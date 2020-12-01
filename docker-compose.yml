@@ -1,7 +1,7 @@
 version: "3"
 services:
   message-broker:
-#    image: smartenergyplatform/mosquitto-env-conf:${CC_MULTI_HUB_ENVIRONMENT}
+#    image: smartenergyplatform/mosquitto-env-conf:${MGW_ENVIRONMENT}
     image: eclipse-mosquitto
     volumes:
       - ./broker-config:/mosquitto/config
@@ -22,7 +22,7 @@ services:
       - multi-gateway-network
 
   device-management-service:
-    image: smartenergyplatform/device-manager:${CC_MULTI_HUB_ENVIRONMENT}
+    image: smartenergyplatform/device-manager:${MGW_ENVIRONMENT}
     ports:
       - "7002:80"
     environment:
@@ -43,7 +43,7 @@ services:
       - multi-gateway-network
 
   senergy-connector-service:
-    image: smartenergyplatform/senergy-connector:${CC_MULTI_HUB_ENVIRONMENT}
+    image: smartenergyplatform/senergy-connector:${MGW_ENVIRONMENT}
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
     environment:
@@ -74,7 +74,7 @@ services:
       - multi-gateway-network
 
   gosund-connector:
-    image: smartenergyplatform/gosund-connector:${CC_MULTI_HUB_ENVIRONMENT}
+    image: smartenergyplatform/gosund-connector:${MGW_ENVIRONMENT}
     environment:
       - TDCCONF_MB_HOST=message-broker
       - TDCCONF_MB_PORT=1883
