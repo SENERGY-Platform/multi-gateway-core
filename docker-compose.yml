@@ -1,22 +1,16 @@
 version: "3"
+
 services:
   message-broker:
-#    image: smartenergyplatform/mosquitto-env-conf:${MGW_ENVIRONMENT}
+    container_name: message-broker
     image: eclipse-mosquitto
     volumes:
-      - ./broker-config:/mosquitto/config
+      - ${MGW_CORE_PATH}/message-broker-config:/mosquitto/config
       - message-broker-data:/mosquitto/data
       - message-broker-log:/mosquitto/log
     ports:
       - "1883:1883"
       - "8883:8883"
-#    environment:
-#      - EM_CONNECTION_MESSAGES=true
-#      - EM_LOG_TIMESTAMP_FORMAT=%Y-%m-%dT%H:%M:%S
-#      - EM_CAFILE=/mosquitto/config/certs/rootCA.crt
-#      - EM_KEYFILE=/mosquitto/config/certs/server.key
-#      - EM_CERTFILE=/mosquitto/config/certs/server.crt
-#      - EM_TLS_VERSION=tlsv1.2
     restart: unless-stopped
     networks:
       - mgw-network
