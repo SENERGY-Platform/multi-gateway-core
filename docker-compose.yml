@@ -1,0 +1,164 @@
+version: "3"
+services:
+  message-broker:
+#    image: smartenergyplatform/mosquitto-env-conf:${CC_MULTI_HUB_ENVIRONMENT}
+    image: eclipse-mosquitto
+    volumes:
+      - ./broker-config:/mosquitto/config
+      - message-broker-data:/mosquitto/data
+      - message-broker-log:/mosquitto/log
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+#    environment:
+#      - EM_CONNECTION_MESSAGES=true
+#      - EM_LOG_TIMESTAMP_FORMAT=%Y-%m-%dT%H:%M:%S
+#      - EM_CAFILE=/mosquitto/config/certs/rootCA.crt
+#      - EM_KEYFILE=/mosquitto/config/certs/server.key
+#      - EM_CERTFILE=/mosquitto/config/certs/server.crt
+#      - EM_TLS_VERSION=tlsv1.2
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  device-management-service:
+    image: smartenergyplatform/device-manager:${CC_MULTI_HUB_ENVIRONMENT}
+    ports:
+      - "7002:80"
+    environment:
+      - DMCONF_MB_HOST=message-broker
+      - DMCONF_MB_PORT=1883
+      - DMCONF_LOGGER_LEVEL=debug
+      - DMCONF_LOGGER_MQTT_LEVEL=info
+      - DMCONF_CLIENT_NAME=device-management-service
+      - DMCONF_CLIENT_CLEAN_SESSION=False
+      - DMCONF_CLIENT_DEVICE_TOPIC=device/+
+      - DMCONF_CLIENT_LW_TOPIC=device/+/lw
+      - DMCONF_CLIENT_KEEP_ALIVE=10
+      - DMCONF_CLIENT_RECONNECT=5
+    links:
+      - message-broker
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  senergy-connector-service:
+    image: smartenergyplatform/senergy-connector:${CC_MULTI_HUB_ENVIRONMENT}
+    volumes:
+      - senergy-connector-service-data:/usr/src/app/cc-lib
+    environment:
+      - PCONF_MB_HOST=message-broker
+      - PCONF_MB_PORT=1883
+      - PCONF_DM_URL=http://device-management-service
+      - PCONF_DM_API=devices
+      - PCONF_LOGGER_LEVEL=debug
+      - PCONF_LOGGER_MQTT_LEVEL=debug
+      - PCONF_MQTTCLIENT_CLEAN_SESSION=false
+      - PCONF_MQTTCLIENT_EVENT_TOPIC=event/#
+      - PCONF_MQTTCLIENT_COMMAND_TOPIC=command
+      - PCONF_MQTTCLIENT_RESPONSE_TOPIC=response/#
+      - PCONF_MQTTCLIENT_KEEP_ALIVE=10
+      - PCONF_DSROUTER_MAX_COMMAND_AGE=60
+      - CONNECTORCONF_CONNECTOR=${CC_MULTI_HUB_CONNECTORCONF_CONNECTOR}
+      - CONNECTORCONF_AUTH=${CC_MULTI_HUB_CONNECTORCONF_AUTH}
+      - CONNECTORCONF_CREDENTIALS=${CC_MULTI_HUB_CONNECTORCONF_CREDENTIALS}
+      - CONNECTORCONF_HUB=${CC_MULTI_HUB_CONNECTORCONF_HUB}
+      - CONNECTORCONF_LOGGER=level:debug
+      - CONNECTORCONF_API=${CC_MULTI_HUB_CONNECTORCONF_API}
+      - MODULE_ID=senergy-connector
+    links:
+      - message-broker
+      - device-management-service
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  gosund-connector:
+    image: smartenergyplatform/gosund-connector:${CC_MULTI_HUB_ENVIRONMENT}
+    environment:
+      - TDCCONF_MB_HOST=message-broker
+      - TDCCONF_MB_PORT=1883
+      - TDCCONF_LOGGER_LEVEL=info
+      - TDCCONF_LOGGER_MQTT_LEVEL=info
+      - TDCCONF_CLIENT_CLEAN_SESSION=False
+      - TDCCONF_CLIENT_DEVICE_TOPIC=device
+      - TDCCONF_CLIENT_LW_TOPIC=lw
+      - TDCCONF_CLIENT_EVENT_TOPIC=event
+      - TDCCONF_CLIENT_COMMAND_TOPIC=command
+      - TDCCONF_CLIENT_RESPONSE_TOPIC=response
+      - TDCCONF_CLIENT_KEEP_ALIVE=10
+      - TDCCONF_DEVICES_TYPE=urn:infai:ses:device-type:f4bb792a-b8d3-41d6-98a8-4407b5192d0e
+      - TDCCONF_DEVICES_NAME=Gosund SP111
+      - TDCCONF_DEVICES_LW_TOPIC=LWT
+      - MODULE_ID=${CC_MULTI_HUB_GOSUND_PREFIX}
+    links:
+      - message-broker
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  analytics-fog-master:
+    image: ghcr.io/senergy-platform/analytics-fog-master:latest
+    environment:
+      - BROKER_ADDRESS=tcp://message-broker:1883
+    volumes:
+      - analytics-fog-master-data:/root/data
+    links:
+      - message-broker
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  analytics-fog-agent:
+    image: smartenergyplatform/analytics-fog-agent
+    environment:
+      - BROKER_HOST=message-broker
+      - BROKER_PORT=1883
+      - CONTAINER_BROKER_HOST=192.168.40.47
+#      - CONTAINER_NETWORK=multi-gateway-network
+      - CONTAINER_PULL_IMAGE=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - analytics-fog-agent-data:/root/data
+    links:
+      - message-broker
+    restart: unless-stopped
+    networks:
+      - multi-gateway-network
+
+  z-way:
+    image: smartenergyplatform/z-way-cc:dev
+    expose:
+      - 8083
+    ports:
+      - 8083:8083
+    volumes:
+      - z-way-config:/opt/z-way-server/config
+      - z-way-automation-storage:/opt/z-way-server/automation/storage
+      - z-way-htdocs-smarthome-user:/opt/z-way-server/htdocs/smarthome/user
+      - z-way-zddx:/opt/z-way-server/ZDDX
+    devices:
+      - '/dev/ttyAMA0:/dev/ttyAMA0'
+    restart: unless-stopped
+    links:
+      - message-broker
+    networks:
+      - multi-gateway-network
+
+volumes:
+  device-type-storage-service-data: {}
+  message-broker-data: {}
+  message-broker-log: {}
+  senergy-connector-service-data: {}
+  analytics-fog-master-data: {}
+  analytics-fog-agent-data: {}
+  z-way-config: {}
+  z-way-automation-storage: {}
+  z-way-htdocs-smarthome-user: {}
+  z-way-zddx: {}
+
+networks:
+  multi-gateway-network:
+    ipam:
+      config:
+        - subnet: ${CC_MULTI_HUB_SUBNET}
