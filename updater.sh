@@ -225,7 +225,7 @@ strtMsg() {
     echo "***************** starting client-connector-hub-updater *****************" | log 4
     echo "running in: '$MGW_CORE_PATH'" | log 4
     echo "check every: '$MGW_UPDATER_DELAY' seconds" | log 4
-    echo "environment: '$CC_HUB_ENVIRONMENT'" | log 4
+    echo "environment: '$MGW_ENVIRONMENT'" | log 4
     echo "log level: '${log_lvl[$MGW_UPDATER_LOG_LVL]}'" | log 4
     echo "PID: '$$'" | log 4
 }
