@@ -110,7 +110,7 @@ services:
       - mgw-network
 
   analytics-fog-agent:
-    image: smartenergyplatform/analytics-fog-agent
+    image: smartenergyplatform/analytics-fog-agent:latest
     environment:
       - BROKER_HOST=message-broker
       - BROKER_PORT=1883
