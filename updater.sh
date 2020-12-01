@@ -247,18 +247,34 @@ if [[ -z "$1" ]]; then
     done
     exit 0
 else
-    if [[ $1 == "install" ]]; then
-        echo "installing client-connector-hub-updater ..."
-        ./load_env.sh install
-        if installUpdaterService; then
-            echo "installation successful"
-            exit 0
-        else
-            echo "installation failed"
-            exit 1
-        fi
-    else
-        echo "unknown argument: '$1'"
-        exit 1
-    fi
+  case "$1" in
+      install)
+          echo "installing multi-gateway-core-updater ..."
+          ./load_env.sh install
+          if installUpdaterService; then
+              echo "installation successful"
+              exit 0
+          else
+              echo "installation failed"
+              exit 1
+          fi
+          ;;
+      deploy)
+          echo "deploying multi-gateway-core containers ..."
+          echo
+          source ./load_env.sh ""
+          if docker-compose up -d; then
+              echo
+              echo "deploying containers successful"
+              exit 0
+          else
+              echo
+              echo "deploying containers failed"
+              exit 1
+          fi
+          ;;
+      *)
+          echo "unknown argument: '$1'"
+          exit 1
+  esac
 fi
