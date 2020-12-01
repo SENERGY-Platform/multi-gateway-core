@@ -249,6 +249,7 @@ if [[ -z "$1" ]]; then
 else
   case "$1" in
       install)
+          initCheck
           echo "installing multi-gateway-core-updater ..."
           ./load_env.sh install
           if installUpdaterService; then
@@ -260,6 +261,7 @@ else
           fi
           ;;
       deploy)
+          initCheck
           echo "deploying multi-gateway-core containers ..."
           echo
           source ./load_env.sh ""
