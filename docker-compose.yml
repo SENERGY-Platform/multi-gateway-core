@@ -39,7 +39,7 @@ services:
 
   senergy-connector-service:
     container_name: senergy-connector-service
-    image: smartenergyplatform/senergy-connector:${MGW_ENVIRONMENT}
+    image: ghcr.io/senergy-platform/senergy-connector:latest
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
     environment:
@@ -71,7 +71,7 @@ services:
 
   gosund-connector:
     container_name: gosund-connector
-    image: smartenergyplatform/gosund-connector:${MGW_ENVIRONMENT}
+    image: ghcr.io/senergy-platform/gosund-connector:latest
     environment:
       - TDCCONF_MB_HOST=message-broker
       - TDCCONF_MB_PORT=1883
@@ -110,7 +110,7 @@ services:
 
   analytics-fog-agent:
     container_name: analytics-fog-agent
-    image: smartenergyplatform/analytics-fog-agent:latest
+    image: ghcr.io/senergy-platform/analytics-fog-agent:latest
     environment:
       - BROKER_HOST=message-broker
       - BROKER_PORT=1883
@@ -128,7 +128,7 @@ services:
 
   z-way-connector:
     container_name: z-way-connector
-    image: smartenergyplatform/z-way-cc:dev
+    image: ghcr.io/senergy-platform/z-way-cc:${MGW_ENVIRONMENT}
     expose:
       - 8083
     ports:
