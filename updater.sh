@@ -243,7 +243,7 @@ if [[ -z "$1" ]]; then
             echo "(core-updater) restarting ..." | log 1
             break
         fi
-        updateHub
+        updateCore
     done
     exit 0
 else
