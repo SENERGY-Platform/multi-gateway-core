@@ -3,7 +3,7 @@ version: "3"
 services:
   message-broker:
     container_name: message-broker
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     volumes:
       - ${MGW_CORE_PATH}/message-broker-config:/mosquitto/config
       - message-broker-data:/mosquitto/data
