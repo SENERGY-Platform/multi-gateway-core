@@ -275,17 +275,29 @@ else
           ;;
       deploy)
           initCheck
-          echo "deploying multi-gateway-core containers ..."
-          echo
           source ./load_env.sh ""
-          if docker-compose up -d; then
+          if [[ -z "$2" ]]; then
+              echo "deploying multi-gateway-core containers ..."
               echo
-              echo "deploying containers successful"
-              exit 0
+              if docker-compose up -d; then
+                  echo
+                  echo "deploying containers successful"
+                  exit 0
+              else
+                  echo
+                  echo "deploying containers failed"
+                  exit 1
+              fi
           else
-              echo
-              echo "deploying containers failed"
-              exit 1
+            if docker-compose up -d "$2"; then
+                echo
+                echo "deploying container successful"
+                exit 0
+            else
+                echo
+                echo "deploying container failed"
+                exit 1
+            fi
           fi
           ;;
       *)
