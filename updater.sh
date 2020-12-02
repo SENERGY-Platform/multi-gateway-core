@@ -157,6 +157,24 @@ slashCount() {
     count="${1//[^\/]}"
     echo "${#count}"
 }
+
+
+getServiceName() {
+    count=$(slashCount "$1")
+    case "$count" in
+        0)
+            echo "$1"
+        ;;
+        1)
+            echo $1 | cut -d'/' -f2
+        ;;
+        2)
+            echo $1 | cut -d'/' -f3
+        ;;
+    esac
+}
+
+
 updateCore() {
     if curl --silent --fail --unix-socket "$MGW_DOCKER_SOCKET" "http:/v$docker_api_version/info" > /dev/null; then
         echo "(core-updater) checking for images to update ..." | log 1
