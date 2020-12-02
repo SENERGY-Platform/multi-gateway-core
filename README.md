@@ -39,17 +39,9 @@ This repository contains the [core files](#core-files) required to deploy, updat
                  |
                  |--- certs/
                  |        |
-                 |        |--- rootCA.crt
-                 |        |
-                 |        |--- rootCA.key
-                 |        |
-                 |        |--- rootCA.srl
-                 |        |
-                 |        |--- server.crt
-                 |        |
-                 |        |--- server.key
-                 |        |
-                 |        |--- server.csr
+                 |        |--- ...
+                 |
+                 |--- gen_certs.sh
                  |
                  |--- mosquitto.conf
 
@@ -66,6 +58,7 @@ Requirements:
  - jq
  - truncate
  - ip
+ - openssl
 
 Clone this repository to a preferred location (for example `/opt/multi-gateway-core`):
 
