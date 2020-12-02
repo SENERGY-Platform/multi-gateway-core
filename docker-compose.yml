@@ -150,7 +150,6 @@ services:
       - mgw-network
 
 volumes:
-  device-type-storage-service-data: {}
   eclipse-mosquitto-data: {}
   eclipse-mosquitto-log: {}
   senergy-connector-service-data: {}
