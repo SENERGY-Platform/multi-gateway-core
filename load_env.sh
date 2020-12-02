@@ -21,8 +21,6 @@ conf_file="core.conf"
 
 conf_vars=(
     "MGW_ENVIRONMENT=prod"
-    "MGW_DOCKER_HUB_API=https://registry-1.docker.io/v2"
-    "MGW_DOCKER_HUB_AUTH=https://auth.docker.io/token"
     "MGW_UPDATER_DELAY=600"
     "MGW_UPDATER_LOG_LVL=1"
     "SCS_CONNECTORCONF_CONNECTOR=host:localhost;port:1883;tls:False;enable_fog:True"
