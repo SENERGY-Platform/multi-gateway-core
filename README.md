@@ -96,3 +96,9 @@ To deploy the MGW [services](#mgw-services) go to the [core installation diction
 To deploy only a single service use the above command and replace `####` with the name of a [service](#mgw-services):
 
     ./updater.sh deploy ####
+
+---
+
+#### Generate certificates and keys
+
+Navigate to the [core installation dictionary](#mgw-core-installation) and enter the `eclipse-mosquitto-config` dictionary. Execute `./gen_certs.sh` and enter your details when prompted.
