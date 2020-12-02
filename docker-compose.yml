@@ -1,22 +1,24 @@
 version: "3"
 
 services:
-  message-broker:
-    container_name: message-broker
+  eclipse-mosquitto:
+    container_name: eclipse-mosquitto
     image: eclipse-mosquitto:latest
     volumes:
-      - ${MGW_CORE_PATH}/message-broker-config:/mosquitto/config
-      - message-broker-data:/mosquitto/data
-      - message-broker-log:/mosquitto/log
+      - ${MGW_CORE_PATH}/eclipse-mosquitto-config:/mosquitto/config
+      - eclipse-mosquitto-data:/mosquitto/data
+      - eclipse-mosquitto-log:/mosquitto/log
     ports:
       - "1883:1883"
       - "8883:8883"
     restart: unless-stopped
     networks:
-      - mgw-network
+      mgw-network:
+        aliases:
+          - message-broker
 
-  device-management-service:
-    container_name: device-management-service
+  device-manager:
+    container_name: device-manager
     image: smartenergyplatform/device-manager:${MGW_ENVIRONMENT}
     ports:
       - "7002:80"
@@ -25,27 +27,27 @@ services:
       - DMCONF_MB_PORT=1883
       - DMCONF_LOGGER_LEVEL=debug
       - DMCONF_LOGGER_MQTT_LEVEL=info
-      - DMCONF_CLIENT_NAME=device-management-service
+      - DMCONF_CLIENT_NAME=device-manager
       - DMCONF_CLIENT_CLEAN_SESSION=False
       - DMCONF_CLIENT_DEVICE_TOPIC=device/+
       - DMCONF_CLIENT_LW_TOPIC=device/+/lw
       - DMCONF_CLIENT_KEEP_ALIVE=10
       - DMCONF_CLIENT_RECONNECT=5
     depends_on:
-      - message-broker
+      - eclipse-mosquitto
     restart: unless-stopped
     networks:
       - mgw-network
 
-  senergy-connector-service:
-    container_name: senergy-connector-service
+  senergy-connector:
+    container_name: senergy-connector
     image: ghcr.io/senergy-platform/senergy-connector:latest
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
     environment:
       - PCONF_MB_HOST=message-broker
       - PCONF_MB_PORT=1883
-      - PCONF_DM_URL=http://device-management-service
+      - PCONF_DM_URL=http://device-manager
       - PCONF_DM_API=devices
       - PCONF_LOGGER_LEVEL=debug
       - PCONF_LOGGER_MQTT_LEVEL=debug
@@ -63,8 +65,8 @@ services:
       - CONNECTORCONF_API=${SCS_CONNECTORCONF_API}
       - MODULE_ID=senergy-connector
     depends_on:
-      - message-broker
-      - device-management-service
+      - eclipse-mosquitto
+      - device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -89,8 +91,8 @@ services:
       - TDCCONF_DEVICES_LW_TOPIC=LWT
       - MODULE_ID=${GC_GOSUND_PREFIX}
     depends_on:
-      - message-broker
-      - device-management-service
+      - eclipse-mosquitto
+      - device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -103,7 +105,7 @@ services:
     volumes:
       - analytics-fog-master-data:/root/data
     depends_on:
-      - message-broker
+      - eclipse-mosquitto
     restart: unless-stopped
     networks:
       - mgw-network
@@ -121,13 +123,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - analytics-fog-agent-data:/root/data
     depends_on:
-      - message-broker
+      - eclipse-mosquitto
     restart: unless-stopped
     networks:
       - mgw-network
 
-  z-way-connector:
-    container_name: z-way-connector
+  z-way-cc:
+    container_name: z-way-cc
     image: ghcr.io/senergy-platform/z-way-cc:${MGW_ENVIRONMENT}
     expose:
       - 8083
@@ -142,15 +144,15 @@ services:
       - '/dev/ttyAMA0:/dev/ttyAMA0'
     restart: unless-stopped
     depends_on:
-      - message-broker
-      - device-management-service
+      - eclipse-mosquitto
+      - device-manager
     networks:
       - mgw-network
 
 volumes:
   device-type-storage-service-data: {}
-  message-broker-data: {}
-  message-broker-log: {}
+  eclipse-mosquitto-data: {}
+  eclipse-mosquitto-log: {}
   senergy-connector-service-data: {}
   analytics-fog-master-data: {}
   analytics-fog-agent-data: {}
