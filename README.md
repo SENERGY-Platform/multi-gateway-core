@@ -82,9 +82,9 @@ Navigate to the repository you just created and choose **one** of the options be
 
 #### Configuration
 
-The core updater and MGW services can be configured via the `core.conf` file:
+The core updater and MGW [services](#mgw-services) can be configured via the `core.conf` file:
 
- - `MGW_DOCKER_SOCKET`/var/run/docker.sock"
+ - `MGW_DOCKER_SOCKET` docker socket path.
  - `MGW_ENVIRONMENT` set to either `dev` for developemnt branch or `prod` for stable branch.
  - `MGW_UPDATER_DELAY` determine how often (in seconds) the core updater checks for updates and installs updates.
  - `MGW_UPDATER_LOG_LVL` set logging level for core updater. (`0`: debug, `1`: info, `2`: warning, `3`: error)
