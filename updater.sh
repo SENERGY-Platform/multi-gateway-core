@@ -26,6 +26,7 @@ log_lvl=("debug" "info" "warning" "error")
 
 current_date="$(date +"%m-%d-%Y")"
 
+docker_api_version="1.40"
 
 installUpdaterService() {
     echo "creating systemd service ..."
@@ -127,7 +128,7 @@ pullImage() {
 
 
 containerRunningState() {
-    status=$(curl -G --silent --unix-socket "/var/run/docker.sock" --data-urlencode 'filters={"name": ["'$1'"]}' "http:/v1.40/containers/json" | jq -r '.[0].State')
+    status=$(curl -G --silent --unix-socket "/var/run/docker.sock" --data-urlencode 'filters={"name": ["'$1'"]}' "http:/v$docker_api_version/containers/json" | jq -r '.[0].State')
     if [[ $status = "running" ]]; then
         return 0
     fi
@@ -153,9 +154,9 @@ getToken() {
 
 
 updateCore() {
-    if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
+    if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v$docker_api_version/info" > /dev/null; then
         echo "(core-updater) checking for images to update ..." | log 1
-        images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
+        images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v$docker_api_version/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
             img_info=$(echo $images | jq -r ".[$i].RepoTags[0]")
