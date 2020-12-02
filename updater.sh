@@ -176,39 +176,34 @@ updateCore() {
         images=$(curl --silent --unix-socket "$MGW_DOCKER_SOCKET" "http:/v$docker_api_version/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
-            img_info=$(echo $images | jq -r ".[$i].RepoTags[0]")
-            img_hash=$(echo $images | jq -r ".[$i].Id")
-            img=$(echo $img_info | cut -d':' -f1)
-            img_name=$(echo $img_info | cut -d'/' -f2 | cut -d':' -f1)
-            img_tag=$(echo $img_info | cut -d':' -f2)
-            if grep -q "$img" $MGW_CORE_PATH/docker-compose.yml; then
-                if curl --silent --fail "$MGW_DOCKER_HUB_API" > /dev/null; then
-                    echo "($img_name) checking for updates ..." | log 1
-                    token=$(getToken $img)
-                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" --header "Authorization: Bearer $token" "$MGW_DOCKER_HUB_API/$img/manifests/$img_tag" | jq -r '.config.digest')
-                    if ! [[ $remote_img_hash == "null" ]]; then
-                        if ! [ "$img_hash" = "$remote_img_hash" ]; then
-                            echo "($img_name) pulling new image ..." | log 1
-                            if pullImage "$img_info"; then
-                                echo "($img_name) pulling new image successful" | log 1
-                                echo "($img_name) redeploying container ..." | log 1
-                                if redeployContainer $img_name; then
-                                    echo "($img_name) redeploying container successful" | log 1
-                                    docker image prune -f > /dev/null 2>&1
-                                else
-                                    echo "($img_name) redeploying container failed" | log 3
-                                fi
+            repo_string=$(echo $images | jq -r ".[$i].RepoTags[0]")
+            repo_digest=$(echo $images | jq -r ".[$i].RepoDigests[0]" | cut -d'@' -f2)
+            repo_name=$(echo $repo_string | cut -d':' -f1)
+            repo_tag=$(echo $repo_string | cut -d':' -f2)
+            srv_name=$(getServiceName $repo_name)
+            if grep -q "$repo_name" $MGW_CORE_PATH/docker-compose.yml; then
+                echo "($srv_name) checking for updates ..." | log 1
+                remote_repo_digest=$(curl --silent --unix-socket "$MGW_DOCKER_SOCKET" "http:/v$docker_api_version/distribution/$repo_string/json" | jq -r ".Descriptor.digest")
+                if ! [[ $remote_repo_digest == "null" ]]; then
+                    if ! [ "$repo_digest" = "$remote_repo_digest" ]; then
+                        echo "($srv_name) pulling new image ..." | log 1
+                        if pullImage "$repo_string"; then
+                            echo "($srv_name) pulling new image successful" | log 1
+                            echo "($srv_name) redeploying container ..." | log 1
+                            if redeployContainer $srv_name; then
+                                echo "($srv_name) redeploying container successful" | log 1
+                                docker image prune -f > /dev/null 2>&1
                             else
-                                echo "($img_name) pulling new image failed" | log 3
+                                echo "($srv_name) redeploying container failed" | log 3
                             fi
                         else
-                            echo "($img_name) up-to-date" | log 1
+                            echo "($srv_name) pulling new image failed" | log 3
                         fi
                     else
-                      echo "($img_name) retrieving remote hash failed" | log 3
+                        echo "($srv_name) up-to-date" | log 1
                     fi
                 else
-                    echo "($img_name) can't reach docker hub '$MGW_DOCKER_HUB_API'" | log 3
+                    echo "($srv_name) retrieving remote digest failed" | log 3
                 fi
             fi
         done
