@@ -117,7 +117,7 @@ services:
       - BROKER_HOST=message-broker
       - BROKER_PORT=1883
       - CONTAINER_BROKER_HOST=${MGW_HOST_IP}
-#      - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
+      - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
       - CONTAINER_PULL_IMAGE=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
