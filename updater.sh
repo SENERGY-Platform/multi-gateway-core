@@ -148,11 +148,6 @@ redeployContainer() {
 }
 
 
-getToken() {
-    curl --silent "$MGW_DOCKER_HUB_AUTH?scope=repository:$1:pull&service=registry.docker.io" | jq -r '.token'
-}
-
-
 slashCount() {
     count="${1//[^\/]}"
     echo "${#count}"
