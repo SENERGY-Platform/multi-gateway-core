@@ -93,7 +93,7 @@ To deploy the MGW [services](#mgw-services) go to the [core installation diction
 
     ./updater.sh deploy
 
-To deploy only a single service use the above command and replace `####` with the name of a [service](#mgw-services):
+To deploy a single service use the above command and replace `####` with the name of a [service](#mgw-services):
 
     ./updater.sh deploy ####
 
