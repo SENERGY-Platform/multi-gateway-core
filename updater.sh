@@ -153,6 +153,10 @@ getToken() {
 }
 
 
+slashCount() {
+    count="${1//[^\/]}"
+    echo "${#count}"
+}
 updateCore() {
     if curl --silent --fail --unix-socket "$MGW_DOCKER_SOCKET" "http:/v$docker_api_version/info" > /dev/null; then
         echo "(core-updater) checking for images to update ..." | log 1
