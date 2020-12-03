@@ -1,3 +1,4 @@
 core.conf
 logs
 eclipse-mosquitto-config/certs
+.rd_flag
