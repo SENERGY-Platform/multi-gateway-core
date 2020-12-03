@@ -254,6 +254,10 @@ initCheck() {
         echo "dependency 'ip' not installed"
         exit 1
     fi
+    if ! command -v docker-compose >/dev/null 2>&1; then
+        echo "dependency 'docker-compose' not installed"
+        exit 1
+    fi
 }
 
 
