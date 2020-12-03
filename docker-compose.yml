@@ -41,7 +41,7 @@ services:
 
   senergy-connector:
     container_name: senergy-connector
-    image: ghcr.io/senergy-platform/senergy-connector:latest
+    image: ghcr.io/senergy-platform/senergy-connector:${MGW_ENVIRONMENT}
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
     environment:
@@ -73,7 +73,7 @@ services:
 
   gosund-connector:
     container_name: gosund-connector
-    image: ghcr.io/senergy-platform/gosund-connector:latest
+    image: ghcr.io/senergy-platform/gosund-connector:${MGW_ENVIRONMENT}
     environment:
       - TDCCONF_MB_HOST=message-broker
       - TDCCONF_MB_PORT=1883
