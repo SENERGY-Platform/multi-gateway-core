@@ -258,7 +258,7 @@ initCheck() {
 
 
 strtMsg() {
-    echo "***************** starting multi-gateway-core-updater *****************" | log 4
+    echo "***************** multi-gateway-core-updater *****************" | log 4
     echo "running in: '$MGW_CORE_PATH'" | log 4
     echo "check every: '$MGW_UPDATER_DELAY' seconds" | log 4
     echo "environment: '$MGW_ENVIRONMENT'" | log 4
