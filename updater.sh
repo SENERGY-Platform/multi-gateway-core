@@ -243,11 +243,11 @@ initCheck() {
         mkdir logs
     fi
     if ! command -v jq >/dev/null 2>&1; then
-        echo "dependency 'jq' not installed" | log 3
+        echo "dependency 'jq' not installed"
         exit 1
     fi
     if ! command -v truncate >/dev/null 2>&1; then
-        echo "dependency 'truncate' not installed" | log 3
+        echo "dependency 'truncate' not installed"
         exit 1
     fi
     if ! command -v ip >/dev/null 2>&1; then
