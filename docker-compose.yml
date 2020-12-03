@@ -19,7 +19,7 @@ services:
 
   device-manager:
     container_name: device-manager
-    image: smartenergyplatform/device-manager:${MGW_ENVIRONMENT}
+    image: ghcr.io/senergy-platform/device-manager:${MGW_ENVIRONMENT}
     ports:
       - "7002:80"
     environment:
