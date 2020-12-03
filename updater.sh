@@ -128,8 +128,8 @@ pullImage() {
 
 
 containerRunningState() {
-    status=$(curl -G --silent --unix-socket "$MGW_DOCKER_SOCKET" --data-urlencode 'filters={"name": ["'$1'"]}' "http:/v$docker_api_version/containers/json" | jq -r '.[0].State')
-    if [[ $status = "running" ]]; then
+    running=$(curl --silent --unix-socket "$MGW_DOCKER_SOCKET" "http:/v$docker_api_version/containers/$1/json" | jq -r ".State.Running")
+    if [[ "$running" == true  ]]; then
         return 0
     fi
     return 1
