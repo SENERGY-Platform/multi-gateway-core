@@ -272,10 +272,18 @@ if [[ -z "$1" ]]; then
     source ./load_env.sh
     initCheck
     strtMsg
+    if [[ -f .rd_flag ]]; then
+        echo "(core-updater) redeploying containers ..." | log 1
+        redeployContainers
+        rm .rd_flag
+    fi
     while true; do
         sleep $MGW_UPDATER_DELAY
         rotateLog
         if updateSelf; then
+            if touch .rd_flag; then
+                echo "(core-updater) containers will be redeployed after restart ..." | log 1
+            fi
             echo "(core-updater) restarting ..." | log 1
             break
         fi
