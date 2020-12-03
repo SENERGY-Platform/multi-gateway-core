@@ -148,6 +148,29 @@ redeployContainer() {
 }
 
 
+redeployContainers() {
+    container=$(curl -G --silent --unix-socket "$MGW_DOCKER_SOCKET" -d 'all=true' --data-urlencode 'filters={"label":["com.docker.compose.project='$MGW_CORE_DIR_NAME'"]}' "http:/v$docker_api_version/containers/json")
+    num=$(echo $container | jq -r 'length')
+    for ((i=0; i<=$num-1; i++)); do
+        srv_name=$(echo $container | jq -r '.['$i'].Labels."com.docker.compose.service"')
+        state=$(echo $container | jq -r ".[$i].State")
+        echo "($srv_name) redeploying container ..." | log 1
+        if [[ "$state" == "running"  ]]; then
+            docker-compose --no-ansi up -d "$srv_name" 2>&1 | log 0
+            p_st="${PIPESTATUS[0]}"
+        else
+            docker-compose --no-ansi up --no-start "$srv_name" 2>&1 | log 0
+            p_st="${PIPESTATUS[0]}"
+        fi
+        if [[ $p_st -eq "0" ]]; then
+            echo "($srv_name) redeploying container successful" | log 1
+        else
+            echo "($srv_name) redeploying container failed" | log 3
+        fi
+    done
+}
+
+
 slashCount() {
     count="${1//[^\/]}"
     echo "${#count}"
