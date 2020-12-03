@@ -68,6 +68,9 @@ Navigate to the repository you just created and choose **one** of the options be
 
  - Install automatic core updates and config loader:
 	 - With root privileges run `./updater.sh install` and afterwards issue `systemctl start mgw-updater.service` or reboot the system.
+
+**OR**
+
  - Install config loader only:
 	 - With root privileges run `./load_env.sh install`.
 
