@@ -120,7 +120,7 @@ services:
       - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
       - CONTAINER_PULL_IMAGE=true
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${MGW_DOCKER_SOCKET}:/var/run/docker.sock
       - analytics-fog-agent-data:/root/data
     depends_on:
       - eclipse-mosquitto
