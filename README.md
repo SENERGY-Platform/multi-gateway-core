@@ -80,11 +80,12 @@ Navigate to the repository you just created and choose **one** of the options be
 
 The core updater and MGW [services](#mgw-services) can be configured via the `core.conf` file:
 
+ - `MGW_NIC` name of the network interface used by the MGW.
  - `MGW_DOCKER_SOCKET` docker socket path.
+ - `MGW_DOCKER_SUBNET` define the subnet of the docker-network. All MGW [services](#mgw-services) reside in this network. (Services must be redeployed after this.)
  - `MGW_ENVIRONMENT` set to either `dev` for developemnt branch or `prod` for stable branch.
  - `MGW_UPDATER_DELAY` determine how often (in seconds) the core updater checks for updates and installs updates.
  - `MGW_UPDATER_LOG_LVL` set logging level for core updater. (`0`: debug, `1`: info, `2`: warning, `3`: error)
- - `MGW_DOCKER_SUBNET` define the subnet of the docker-network. All MGW [services](#mgw-services) reside in this network. (Services must be redeployed after this.)
 
 Restart the mgw-updater.service for changes to take affect.
 
