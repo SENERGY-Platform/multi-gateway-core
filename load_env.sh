@@ -36,12 +36,6 @@ conf_vars=(
     "GC_DEVICES_TYPE="
 )
 
-env_vars=(
-    "MGW_CORE_PATH=$core_dir"
-    "MGW_CORE_DIR_NAME=${core_dir##*/}"
-    "MGW_HOST_IP=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)"
-)
-
 
 initConf() {
     echo "creating $conf_file ..."
@@ -73,7 +67,25 @@ loadConf() {
 }
 
 
+getIP() {
+    plattform="$(uname -s)"
+    case "${plattform}" in
+        Linux*)
+            ip -o -4 addr list "$MGW_NIC" | awk '{print $4}' | cut -d/ -f1
+        ;;
+        Darwin*)
+            ip -4 addr list "$MGW_NIC" | awk '/inet/ {print $2}' | cut -d/ -f1
+        ;;
+    esac
+}
+
+
 loadEnv() {
+  env_vars=(
+      "MGW_CORE_PATH=$core_dir"
+      "MGW_CORE_DIR_NAME=${core_dir##*/}"
+      "MGW_HOST_IP=$(getIP)"
+  )
   for var in "${env_vars[@]}"; do
       export "$var"
   done
