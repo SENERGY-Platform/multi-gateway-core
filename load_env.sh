@@ -21,6 +21,7 @@ conf_file="core.conf"
 
 conf_vars=(
     "MGW_DOCKER_SOCKET=/var/run/docker.sock"
+    "MGW_NIC=eth0"
     "MGW_ENVIRONMENT=prod"
     "MGW_UPDATER_DELAY=600"
     "MGW_UPDATER_LOG_LVL=1"
