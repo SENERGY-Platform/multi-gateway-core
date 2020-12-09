@@ -53,7 +53,7 @@ services:
       - BROKER_PORT=1883
       - CONTAINER_BROKER_HOST=${MGW_HOST_IP}
       - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
-      - CONTAINER_PULL_IMAGE=true
+      - CONTAINER_PULL_IMAGE=${AFA_CONTAINER_PULL_IMAGE}
     volumes:
       - ${MGW_DOCKER_SOCKET}:/var/run/docker.sock
       - analytics-fog-agent-data:/root/data
