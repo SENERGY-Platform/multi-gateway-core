@@ -102,6 +102,26 @@ services:
     networks:
       - mgw-network
 
+  hue-bridge-dc:
+    container_name: hue-bridge-dc
+    image: ghcr.io/senergy-platform/hue-bridge-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONFIG_MSGBROKER_HOST=message-broker
+      - CONFIG_MSGBROKER_PORT=1883
+      - CONFIG_LOGGER_LEVEL=${HBDC_CONFIG_LOGGER_LEVEL}
+      - CONFIG_BRIDGE_API_KEY=${HBDC_CONFIG_BRIDGE_API_KEY}
+      - CONFIG_BRIDGE_ID=${HBDC_CONFIG_BRIDGE_ID}
+      - CONFIG_DISCOVERY_DEVICE_ID_PREFIX=${HBDC_CONFIG_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONFIG_SENERGY_DT_EXTENDED_COLOR_LIGHT=${HBDC_CONFIG_SENERGY_DT_EXTENDED_COLOR_LIGHT}
+      - CONFIG_SENERGY_DT_ON_OFF_PLUG_IN_UNIT=${HBDC_CONFIG_SENERGY_DT_ON_OFF_PLUG_IN_UNIT}
+      - CONFIG_SENERGY_DT_COLOR_LIGHT=${HBDC_CONFIG_SENERGY_DT_COLOR_LIGHT}
+    depends_on:
+      - eclipse-mosquitto
+      - device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   gosund-connector:
     container_name: gosund-connector
     image: ghcr.io/senergy-platform/gosund-connector:${MGW_ENVIRONMENT}
