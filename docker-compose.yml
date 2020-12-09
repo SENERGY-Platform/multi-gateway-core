@@ -39,6 +39,37 @@ services:
     networks:
       - mgw-network
 
+  analytics-fog-master:
+    container_name: analytics-fog-master
+    image: ghcr.io/senergy-platform/analytics-fog-master:latest
+    environment:
+      - BROKER_ADDRESS=tcp://message-broker:1883
+    volumes:
+      - analytics-fog-master-data:/root/data
+    depends_on:
+      - eclipse-mosquitto
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
+  analytics-fog-agent:
+    container_name: analytics-fog-agent
+    image: ghcr.io/senergy-platform/analytics-fog-agent:latest
+    environment:
+      - BROKER_HOST=message-broker
+      - BROKER_PORT=1883
+      - CONTAINER_BROKER_HOST=${MGW_HOST_IP}
+      - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
+      - CONTAINER_PULL_IMAGE=true
+    volumes:
+      - ${MGW_DOCKER_SOCKET}:/var/run/docker.sock
+      - analytics-fog-agent-data:/root/data
+    depends_on:
+      - eclipse-mosquitto
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   senergy-connector:
     container_name: senergy-connector
     image: ghcr.io/senergy-platform/senergy-connector:${MGW_ENVIRONMENT}
@@ -93,37 +124,6 @@ services:
     depends_on:
       - eclipse-mosquitto
       - device-manager
-    restart: unless-stopped
-    networks:
-      - mgw-network
-
-  analytics-fog-master:
-    container_name: analytics-fog-master
-    image: ghcr.io/senergy-platform/analytics-fog-master:latest
-    environment:
-      - BROKER_ADDRESS=tcp://message-broker:1883
-    volumes:
-      - analytics-fog-master-data:/root/data
-    depends_on:
-      - eclipse-mosquitto
-    restart: unless-stopped
-    networks:
-      - mgw-network
-
-  analytics-fog-agent:
-    container_name: analytics-fog-agent
-    image: ghcr.io/senergy-platform/analytics-fog-agent:latest
-    environment:
-      - BROKER_HOST=message-broker
-      - BROKER_PORT=1883
-      - CONTAINER_BROKER_HOST=${MGW_HOST_IP}
-      - CONTAINER_NETWORK=${MGW_CORE_DIR_NAME}_mgw-network
-      - CONTAINER_PULL_IMAGE=true
-    volumes:
-      - ${MGW_DOCKER_SOCKET}:/var/run/docker.sock
-      - analytics-fog-agent-data:/root/data
-    depends_on:
-      - eclipse-mosquitto
     restart: unless-stopped
     networks:
       - mgw-network
