@@ -113,20 +113,11 @@ services:
     container_name: gosund-connector
     image: ghcr.io/senergy-platform/gosund-connector:${MGW_ENVIRONMENT}
     environment:
-      - TDCCONF_MB_HOST=message-broker
-      - TDCCONF_MB_PORT=1883
-      - TDCCONF_LOGGER_LEVEL=info
-      - TDCCONF_LOGGER_MQTT_LEVEL=info
-      - TDCCONF_CLIENT_CLEAN_SESSION=False
-      - TDCCONF_CLIENT_DEVICE_TOPIC=device
-      - TDCCONF_CLIENT_LW_TOPIC=lw
-      - TDCCONF_CLIENT_EVENT_TOPIC=event
-      - TDCCONF_CLIENT_COMMAND_TOPIC=command
-      - TDCCONF_CLIENT_RESPONSE_TOPIC=response
-      - TDCCONF_CLIENT_KEEP_ALIVE=10
-      - TDCCONF_DEVICES_TYPE=${GC_DEVICES_TYPE}
-      - TDCCONF_DEVICES_NAME=Gosund SP111
-      - TDCCONF_DEVICES_LW_TOPIC=LWT
+      - CONF_MB_HOST=message-broker
+      - CONF_MB_PORT=1883
+      - CONF_LOGGER_LEVEL=${GC_CONF_LOGGER_LEVEL}
+      - CONF_DEVICES_TYPE=${GC_CONF_DEVICES_TYPE}
+      - CONF_DEVICES_LW_TOPIC=${GC_CONF_DEVICES_LW_TOPIC}
       - MODULE_ID=${GC_GOSUND_PREFIX}
     depends_on:
       - eclipse-mosquitto

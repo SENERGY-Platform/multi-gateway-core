@@ -36,8 +36,6 @@ conf_vars=(
     "SC_CONNECTORCONF_HUB=name:multi-hub"
     "SC_CONNECTORCONF_API=host:localhost;hub_endpt:device-manager/hubs;device_endpt:device-manager/local-devices;tls:False"
     "SC_CONNECTORCONF_LOGGER=level:info"
-    "GC_GOSUND_PREFIX="
-    "GC_DEVICES_TYPE="
     "HBDC_CONFIG_LOGGER_LEVEL=info"
     "HBDC_CONFIG_BRIDGE_API_KEY="
     "HBDC_CONFIG_BRIDGE_ID="
@@ -45,6 +43,10 @@ conf_vars=(
     "HBDC_CONFIG_SENERGY_DT_EXTENDED_COLOR_LIGHT="
     "HBDC_CONFIG_SENERGY_DT_ON_OFF_PLUG_IN_UNIT="
     "HBDC_CONFIG_SENERGY_DT_COLOR_LIGHT="
+    "GC_CONF_LOGGER_LEVEL=info"
+    "GC_CONF_DEVICES_TYPE="
+    "GC_CONF_DEVICES_LW_TOPIC=LWT"
+    "GC_GOSUND_PREFIX="
 )
 
 
