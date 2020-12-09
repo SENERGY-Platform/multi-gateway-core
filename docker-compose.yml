@@ -25,14 +25,7 @@ services:
     environment:
       - DMCONF_MB_HOST=message-broker
       - DMCONF_MB_PORT=1883
-      - DMCONF_LOGGER_LEVEL=debug
-      - DMCONF_LOGGER_MQTT_LEVEL=info
-      - DMCONF_CLIENT_NAME=device-manager
-      - DMCONF_CLIENT_CLEAN_SESSION=False
-      - DMCONF_CLIENT_DEVICE_TOPIC=device/+
-      - DMCONF_CLIENT_LW_TOPIC=device/+/lw
-      - DMCONF_CLIENT_KEEP_ALIVE=10
-      - DMCONF_CLIENT_RECONNECT=5
+      - DMCONF_LOGGER_LEVEL=${DM_DMCONF_LOGGER_LEVEL}
     depends_on:
       - eclipse-mosquitto
     restart: unless-stopped

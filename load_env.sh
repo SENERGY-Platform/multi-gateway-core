@@ -32,6 +32,7 @@ conf_vars=(
     "SCS_CONNECTORCONF_HUB=name:multi-hub"
     "SCS_CONNECTORCONF_API=host:localhost;hub_endpt:device-manager/hubs;device_endpt:device-manager/local-devices;tls:False"
     "SCS_CONNECTORCONF_LOGGER=level:info"
+    "DM_DMCONF_LOGGER_LEVEL=info"
     "GC_GOSUND_PREFIX="
     "GC_DEVICES_TYPE="
     "HBDC_CONFIG_LOGGER_LEVEL=info"
