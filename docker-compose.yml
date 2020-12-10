@@ -93,6 +93,7 @@ services:
     container_name: hue-bridge-dc
     image: ghcr.io/senergy-platform/hue-bridge-dc:${MGW_ENVIRONMENT}
     environment:
+      - CONF_STARTDELAY_ENABLED=True
       - CONF_MSGBROKER_HOST=message-broker
       - CONF_MSGBROKER_PORT=1883
       - CONF_LOGGER_LEVEL=${HBDC_CONF_LOGGER_LEVEL}
