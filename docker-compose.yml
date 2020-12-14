@@ -103,6 +103,8 @@ services:
       - CONF_SENERGY_DT_EXTENDED_COLOR_LIGHT=${HBDC_CONF_SENERGY_DT_EXTENDED_COLOR_LIGHT}
       - CONF_SENERGY_DT_ON_OFF_PLUG_IN_UNIT=${HBDC_CONF_SENERGY_DT_ON_OFF_PLUG_IN_UNIT}
       - CONF_SENERGY_DT_COLOR_LIGHT=${HBDC_CONF_SENERGY_DT_COLOR_LIGHT}
+    volumes:
+      - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
     depends_on:
       - eclipse-mosquitto
       - device-manager
