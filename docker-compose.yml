@@ -124,7 +124,7 @@ services:
       - CONF_DISCOVERY_DEVICE_ID_PREFIX=${BDC_CONF_DISCOVERY_DEVICE_ID_PREFIX}
       - CONF_SENERGY_DT_AIR_SENSOR=${BDC_CONF_SENERGY_DT_AIR_SENSOR}
     volumes:
-      - ${MGW_CORE_PATH}/.host_ip:/opt/.host_ip
+      - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
     depends_on:
       - eclipse-mosquitto
       - device-manager
