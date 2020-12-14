@@ -114,6 +114,7 @@ loadEnv() {
 if [[ -z "$1" ]]; then
     loadConf
     loadEnv
+    getIP > .host_ip
 else
     case "$1" in
         install)

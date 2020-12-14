@@ -284,6 +284,7 @@ if [[ -z "$1" ]]; then
     while true; do
         sleep $MGW_UPDATER_DELAY
         rotateLog
+        getIP > .host_ip
         if updateSelf; then
             if touch .rd_flag; then
                 echo "(core-updater) containers will be redeployed after restart ..." | log 1
