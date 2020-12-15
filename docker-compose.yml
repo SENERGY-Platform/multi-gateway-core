@@ -145,7 +145,7 @@ services:
       - CONF_DISCOVERY_PORT_FILTER=${SMDC_CONF_DISCOVERY_PORT_FILTER}
       - CONF_SENERGY_DT_LGZXZMF100AC=${SMDC_CONF_SENERGY_DT_LGZXZMF100AC}
     volumes:
-      - '/dev:/dev'
+      - /dev:/dev
     depends_on:
       - eclipse-mosquitto
       - device-manager
