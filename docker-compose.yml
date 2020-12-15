@@ -133,6 +133,24 @@ services:
     networks:
       - mgw-network
 
+  smart-meter-dc:
+    container_name: smart-meter-dc
+    image: ghcr.io/senergy-platform/smart-meter-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_STARTDELAY_ENABLED=True
+      - CONF_MSGBROKER_HOST=message-broker
+      - CONF_MSGBROKER_PORT=1883
+      - CONF_LOGGER_LEVEL=${SMDC_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_DEVICE_ID_PREFIX=${SMDC_CONF_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONF_DISCOVERY_PORT_FILTER=${SMDC_CONF_DISCOVERY_PORT_FILTER}
+      - CONF_SENERGY_DT_LGZXZMF100AC=${SMDC_CONF_SENERGY_DT_LGZXZMF100AC}
+    depends_on:
+      - eclipse-mosquitto
+      - device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   gosund-connector:
     container_name: gosund-connector
     image: ghcr.io/senergy-platform/gosund-connector:${MGW_ENVIRONMENT}
