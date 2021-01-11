@@ -86,7 +86,7 @@ services:
       - MODULE_ID=senergy-connector
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -109,7 +109,7 @@ services:
       - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -128,7 +128,7 @@ services:
       - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -148,7 +148,7 @@ services:
       - /dev:/dev
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -165,7 +165,7 @@ services:
       - MODULE_ID=${GC_GOSUND_PREFIX}
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     restart: unless-stopped
     networks:
       - mgw-network
@@ -187,7 +187,7 @@ services:
     restart: unless-stopped
     depends_on:
       - eclipse-mosquitto
-      - device-manager
+      - mgw-device-manager
     networks:
       - mgw-network
 
