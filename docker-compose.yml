@@ -63,9 +63,9 @@ services:
     networks:
       - mgw-network
 
-  senergy-connector:
-    container_name: senergy-connector
-    image: ghcr.io/senergy-platform/senergy-connector:${MGW_ENVIRONMENT}
+  mgw-senergy-connector:
+    container_name: mgw-senergy-connector
+    image: ghcr.io/senergy-platform/mgw-senergy-connector:${MGW_ENVIRONMENT}
     volumes:
       - senergy-connector-service-data:/usr/src/app/cc-lib
     environment:
