@@ -151,9 +151,9 @@ services:
     networks:
       - mgw-network
 
-  gosund-connector:
-    container_name: gosund-connector
-    image: ghcr.io/senergy-platform/gosund-connector:${MGW_ENVIRONMENT}
+  gosund-dc:
+    container_name: gosund-dc
+    image: ghcr.io/senergy-platform/gosund-dc:${MGW_ENVIRONMENT}
     environment:
       - CONF_MB_HOST=message-broker
       - CONF_MB_PORT=1883
