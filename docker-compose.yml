@@ -30,7 +30,9 @@ services:
       - eclipse-mosquitto
     restart: unless-stopped
     networks:
-      - mgw-network
+      mgw-network:
+        aliases:
+          - device-manager
 
   analytics-fog-master:
     container_name: analytics-fog-master
