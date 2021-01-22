@@ -170,6 +170,23 @@ services:
     networks:
       - mgw-network
 
+  zwave2mqtt:
+    container_name: zwave2mqtt
+    image: robertslando/zwave2mqtt:latest
+    tty: true
+    stop_signal: SIGINT
+    devices:
+      - '/dev/ttyACM0:/dev/ttyACM0'
+    volumes:
+      - zwave2mqtt_store:/usr/src/app/store
+    ports:
+      - '8091:8091'
+    depends_on:
+      - eclipse-mosquitto
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   # z-way-cc:
   #   container_name: z-way-cc
   #   image: ghcr.io/senergy-platform/z-way-cc:${MGW_ENVIRONMENT}
@@ -197,6 +214,7 @@ volumes:
   senergy-connector-service-data:
   analytics-fog-master-data:
   analytics-fog-agent-data:
+  zwave2mqtt_store:
   # z-way-config: {}
   # z-way-automation-storage: {}
   # z-way-htdocs-smarthome-user: {}
