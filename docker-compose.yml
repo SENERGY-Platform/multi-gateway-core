@@ -192,11 +192,11 @@ services:
   #     - mgw-network
 
 volumes:
-  eclipse-mosquitto-data: {}
-  eclipse-mosquitto-log: {}
-  senergy-connector-service-data: {}
-  analytics-fog-master-data: {}
-  analytics-fog-agent-data: {}
+  eclipse-mosquitto-data:
+  eclipse-mosquitto-log:
+  senergy-connector-service-data:
+  analytics-fog-master-data:
+  analytics-fog-agent-data:
   # z-way-config: {}
   # z-way-automation-storage: {}
   # z-way-htdocs-smarthome-user: {}
