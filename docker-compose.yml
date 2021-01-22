@@ -197,10 +197,6 @@ volumes:
   senergy-connector-service-data: {}
   analytics-fog-master-data: {}
   analytics-fog-agent-data: {}
-  z-way-config: {}
-  z-way-automation-storage: {}
-  z-way-htdocs-smarthome-user: {}
-  z-way-zddx: {}
   # z-way-config: {}
   # z-way-automation-storage: {}
   # z-way-htdocs-smarthome-user: {}
