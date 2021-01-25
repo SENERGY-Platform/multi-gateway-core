@@ -153,6 +153,28 @@ services:
     networks:
       - mgw-network
 
+  dyson-dc:
+    container_name: dyson-dc
+    image: ghcr.io/senergy-platform/dyson-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_MSGBROKER_HOST=1883
+      - CONF_MSGBROKER_PORT=message-broker
+      - CONF_STARTDELAY_ENABLED=True
+      - CONF_LOGGER_LEVEL={$DDC_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_DEVICE_ID_PREFIX={$DDC_CONF_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONF_ACCOUNT_EMAIL={$DDC_CONF_ACCOUNT_EMAIL}
+      - CONF_ACCOUNT_PW={$DDC_CONF_ACCOUNT_PW}
+      - CONF_ACCOUNT_COUNTRY={$DDC_CONF_ACCOUNT_COUNTRY}
+      - CONF_SENERGY_DT_PURE_COOL_LINK={$DDC_CONF_SENERGY_DT_PURE_COOL_LINK}
+    volumes:
+      - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   gosund-dc:
     container_name: gosund-dc
     image: ghcr.io/senergy-platform/gosund-dc:${MGW_ENVIRONMENT}
@@ -175,12 +197,12 @@ services:
     image: robertslando/zwave2mqtt:latest
     tty: true
     stop_signal: SIGINT
+    ports:
+      - "8091:8091"
     devices:
-      - '/dev/ttyACM0:/dev/ttyACM0'
+      - /dev/ttyACM0:/dev/ttyACM0
     volumes:
       - zwave2mqtt_store:/usr/src/app/store
-    ports:
-      - '8091:8091'
     depends_on:
       - eclipse-mosquitto
     restart: unless-stopped
