@@ -209,6 +209,23 @@ services:
     networks:
       - mgw-network
 
+  mgw-zwave-dc:
+    container_name: mgw-zwave-dc
+    image: ghcr.io/senergy-platform/mgw-zwave-dc:${MGW_ENVIRONMENT}
+    environment:
+      - DEVICE_ID_PREFIX=${ZDC_DEVICE_ID_PREFIX}
+      - DEBUG=${ZDC_DEBUG}
+      - UPDATE_PERIOD=${ZDC_UPDATE_PERIOD}
+      - DELETE_MISSING_DEVICES=${ZDC_DELETE_MISSING_DEVICES}
+      - DELETE_HUSKS=${ZDC_DELETE_HUSKS}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+      - zwave2mqtt
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   # z-way-cc:
   #   container_name: z-way-cc
   #   image: ghcr.io/senergy-platform/z-way-cc:${MGW_ENVIRONMENT}
