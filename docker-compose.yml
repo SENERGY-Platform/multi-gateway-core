@@ -157,8 +157,8 @@ services:
     container_name: dyson-dc
     image: ghcr.io/senergy-platform/dyson-dc:${MGW_ENVIRONMENT}
     environment:
-      - CONF_MSGBROKER_HOST=1883
-      - CONF_MSGBROKER_PORT=message-broker
+      - CONF_MSGBROKER_HOST=message-broker
+      - CONF_MSGBROKER_PORT=1883
       - CONF_STARTDELAY_ENABLED=True
       - CONF_LOGGER_LEVEL={$DDC_CONF_LOGGER_LEVEL}
       - CONF_DISCOVERY_DEVICE_ID_PREFIX={$DDC_CONF_DISCOVERY_DEVICE_ID_PREFIX}
