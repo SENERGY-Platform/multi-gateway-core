@@ -336,6 +336,33 @@ else
             fi
           fi
           ;;
+      pull)
+          initCheck
+          source ./load_env.sh ""
+          if [[ -z "$2" ]]; then
+              echo "pulling multi-gateway-core images ..."
+              echo
+              if docker-compose pull; then
+                  echo
+                  echo "pulling images successful"
+                  exit 0
+              else
+                  echo
+                  echo "pulling images failed"
+                  exit 1
+              fi
+          else
+            if docker-compose pull "$2"; then
+                echo
+                echo "pulling image successful"
+                exit 0
+            else
+                echo
+                echo "pulling image failed"
+                exit 1
+            fi
+          fi
+          ;;
       *)
           echo "unknown argument: '$1'"
           exit 1
