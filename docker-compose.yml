@@ -254,10 +254,10 @@ volumes:
   analytics-fog-master-data:
   analytics-fog-agent-data:
   zwave2mqtt_store:
-  z-way-config: {}
-  z-way-automation-storage: {}
-  z-way-htdocs-smarthome-user: {}
-  z-way-zddx: {}
+  z-way-config:
+  z-way-automation-storage:
+  z-way-htdocs-smarthome-user:
+  z-way-zddx:
 
 networks:
   mgw-network:
