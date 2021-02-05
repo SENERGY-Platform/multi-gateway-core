@@ -200,7 +200,7 @@ services:
     ports:
       - "8091:8091"
     devices:
-      - /dev/ttyACM0:/dev/ttyACM0
+      - ${Z2M_DEVICES_PATH}:${Z2M_DEVICES_PATH}
     volumes:
       - zwave2mqtt_store:/usr/src/app/store
     depends_on:
