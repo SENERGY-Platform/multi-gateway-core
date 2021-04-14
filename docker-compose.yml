@@ -69,7 +69,7 @@ services:
     container_name: mgw-senergy-connector
     image: ghcr.io/senergy-platform/mgw-senergy-connector:${MGW_ENVIRONMENT}
     volumes:
-      - senergy-connector-service-data:/usr/src/app/cc-lib
+      - mgw-senergy-connector-data:/usr/src/app/.data
     environment:
       - CONF_MB_HOST=message-broker
       - CONF_MB_PORT=1883
@@ -257,7 +257,7 @@ services:
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
-  senergy-connector-service-data:
+  mgw-senergy-connector-data:
   analytics-fog-master-data:
   analytics-fog-agent-data:
   zwave2mqtt_store:
