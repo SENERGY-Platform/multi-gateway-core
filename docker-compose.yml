@@ -257,6 +257,90 @@ services:
     networks:
       - mgw-network
 
+  camunda-db:
+    image: postgres:11.2
+    environment:
+      POSTGRES_DB=camunda
+      POSTGRES_PASSWORD=${CDB_POSTGRES_PASSWORD}
+      POSTGRES_USER=${CDB_POSTGRES_USER}
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
+  camunda:
+    image: ghcr.io/senergy-platform/process-engine:prod
+    environment:
+      DB_USERNAME=${CDB_POSTGRES_USER}
+      DB_PASSWORD=${CDB_POSTGRES_PASSWORD}
+      DB_URL=jdbc:postgresql://camunda-db:5432/camunda
+      DB_PORT=5432
+      DB_NAME=camunda
+      DB_HOST=camunda-db
+      DB_DRIVER=org.postgresql.Driver
+      DATABASE=postgres
+    restart: unless-stopped
+    depends_on:
+      - camunda-db
+    networks:
+      - mgw-network
+
+  mgw-notify:
+    image: ghcr.io/senergy-platform/mgw-notifier:prod
+    environment:
+      DEBUG=${NOTI_DEBUG}
+      NOTIFICATION_URL=${NOTI_NOTIFICATION_URL}
+      AUTH_ENDPOINT=${NOTI_AUTH_ENDPOINT}
+      AUTH_USER_NAME=${NOTI_AUTH_USER_NAME}
+      AUTH_PASSWORD=${NOTI_AUTH_PASSWORD}
+    networks:
+      - mgw-network
+
+  metadata-db:
+    image: mongo:4.1.11
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
+  mgw-process-sync-client:
+    image: ghcr.io/senergy-platform/mgw-process-sync-client:prod
+    environment:
+      CAMUNDA_DB=postgres://${CDB_POSTGRES_USER}:${CDB_POSTGRES_PASSWORD}@camunda-db/camunda?sslmode=disable
+      CAMUNDA_URL=http://camunda:8080
+      MQTT_BROKER=${PSC_MQTT_BROKER}
+      MQTT_CLIENT_ID=${PSC_MQTT_CLIENT_ID}
+      MQTT_USER=${PSC_MQTT_USER}
+      MQTT_PW=${PSC_MQTT_PW}
+      DEPLOYMENT_METADATA_STORAGE=mongodb://metadata-db:27017/metadata
+      NOTIFICATION_URL=http://mgw-notify:8080
+    restart: unless-stopped
+    depends_on:
+      - camunda-db
+      - camunda
+      - mgw-senergy-connector
+      - metadata-db
+    networks:
+      - mgw-network
+
+  mgw-external-task-worker:
+    image: ghcr.io/senergy-platform/mgw-external-task-worker:prod
+    environment:
+      COMPLETION_STRATEGY=${ETW_COMPLETION_STRATEGY}
+      CAMUNDA_TOPIC=${ETW_CAMUNDA_TOPIC}
+      AUTH_ENDPOINT=${ETW_AUTH_ENDPOINT}
+      AUTH_USER_NAME=${ETW_AUTH_USER_NAME}
+      AUTH_PASSWORD=${ETW_AUTH_PASSWORD}
+      CAMUNDA_URL=http://camunda:8080
+      MQTT_BROKER=${ETW_MQTT_BROKER}
+      DEVICE_REPO_URL=${ETW_DEVICE_REPO_URL}
+      DEBUG=${ETW_DEBUG}
+    restart: unless-stopped
+    depends_on:
+      - camunda-db
+      - camunda
+      - mgw-senergy-connector
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
