@@ -93,7 +93,7 @@ conf_vars=(
     "ETW_AUTH_USER_NAME="
     "ETW_AUTH_PASSWORD="
     "ETW_MQTT_BROKER="
-    "ETW_DEVICE_REPO_URL"
+    "ETW_DEVICE_REPO_URL="
     "ETW_DEBUG=false"
 )
 
