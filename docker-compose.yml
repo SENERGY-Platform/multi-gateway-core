@@ -299,7 +299,7 @@ services:
       - mgw-network
 
   metadata-db:
-    image: mongo:4.1.11
+    image: mongo:3.1
     volumes:
       - metadata-db-data:/data/db
     restart: unless-stopped
