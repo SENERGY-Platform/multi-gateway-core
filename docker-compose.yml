@@ -263,6 +263,9 @@ services:
       POSTGRES_DB=camunda
       POSTGRES_PASSWORD=${CDB_POSTGRES_PASSWORD}
       POSTGRES_USER=${CDB_POSTGRES_USER}
+      PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - camunda-db-data:/var/lib/postgresql/data/pgdata
     restart: unless-stopped
     networks:
       - mgw-network
@@ -297,6 +300,8 @@ services:
 
   metadata-db:
     image: mongo:4.1.11
+    volumes:
+      - metadata-db-data:/data/db
     restart: unless-stopped
     networks:
       - mgw-network
@@ -352,6 +357,8 @@ volumes:
   z-way-automation-storage:
   z-way-htdocs-smarthome-user:
   z-way-zddx:
+  camunda-db-data:
+  metadata-db-data:
 
 networks:
   mgw-network:
