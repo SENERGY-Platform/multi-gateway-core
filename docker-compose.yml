@@ -311,10 +311,7 @@ services:
     environment:
       - CAMUNDA_DB=postgres://${CDB_POSTGRES_USER}:${CDB_POSTGRES_PASSWORD}@camunda-db/camunda?sslmode=disable
       - CAMUNDA_URL=http://camunda:8080
-      - MQTT_BROKER=${PSC_MQTT_BROKER}
-      - MQTT_CLIENT_ID=${PSC_MQTT_CLIENT_ID}
-      - MQTT_USER=${PSC_MQTT_USER}
-      - MQTT_PW=${PSC_MQTT_PW}
+      - MQTT_BROKER=tcp://message-broker:1883
       - DEPLOYMENT_METADATA_STORAGE=mongodb://metadata-db:27017/metadata
       - NOTIFICATION_URL=http://mgw-notify:8080
     restart: unless-stopped
@@ -335,7 +332,7 @@ services:
       - AUTH_USER_NAME=${ETW_AUTH_USER_NAME}
       - AUTH_PASSWORD=${ETW_AUTH_PASSWORD}
       - CAMUNDA_URL=http://camunda:8080
-      - MQTT_BROKER=${ETW_MQTT_BROKER}
+      - MQTT_BROKER=tcp://message-broker:1883
       - DEVICE_REPO_URL=${ETW_DEVICE_REPO_URL}
       - DEBUG=${ETW_DEBUG}
     restart: unless-stopped
