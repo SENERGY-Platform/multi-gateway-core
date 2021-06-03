@@ -298,28 +298,21 @@ services:
     networks:
       - mgw-network
 
-  metadata-db:
-    image: mongo:3.1
-    volumes:
-      - metadata-db-data:/data/db
-    restart: unless-stopped
-    networks:
-      - mgw-network
-
   mgw-process-sync-client:
     image: ghcr.io/senergy-platform/mgw-process-sync-client:prod
     environment:
       - CAMUNDA_DB=postgres://${CDB_POSTGRES_USER}:${CDB_POSTGRES_PASSWORD}@camunda-db/camunda?sslmode=disable
       - CAMUNDA_URL=http://camunda:8080
       - MQTT_BROKER=tcp://message-broker:1883
-      - DEPLOYMENT_METADATA_STORAGE=mongodb://metadata-db:27017/metadata
+      - DEPLOYMENT_METADATA_STORAGE=/data/badger
       - NOTIFICATION_URL=http://mgw-notify:8080
+    volumes:
+      - process-sync-client-data:/data/badger
     restart: unless-stopped
     depends_on:
       - camunda-db
       - camunda
       - mgw-senergy-connector
-      - metadata-db
     networks:
       - mgw-network
 
@@ -355,7 +348,7 @@ volumes:
   z-way-htdocs-smarthome-user:
   z-way-zddx:
   camunda-db-data:
-  metadata-db-data:
+  process-sync-client-data:
 
 networks:
   mgw-network:
