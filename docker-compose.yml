@@ -304,10 +304,10 @@ services:
       - CAMUNDA_DB=postgres://${CDB_POSTGRES_USER}:${CDB_POSTGRES_PASSWORD}@camunda-db/camunda?sslmode=disable
       - CAMUNDA_URL=http://camunda:8080
       - MQTT_BROKER=tcp://message-broker:1883
-      - DEPLOYMENT_METADATA_STORAGE=/data/badger
+      - DEPLOYMENT_METADATA_STORAGE=/root/bolt.db
       - NOTIFICATION_URL=http://mgw-notify:8080
     volumes:
-      - process-sync-client-data:/data/badger
+      - process-sync-client-data:/root/bolt.db
     restart: unless-stopped
     depends_on:
       - camunda-db
