@@ -271,7 +271,7 @@ services:
       - mgw-network
 
   camunda:
-    image: ghcr.io/senergy-platform/process-engine:prod
+    image: ghcr.io/senergy-platform/process-engine:${MGW_ENVIRONMENT}
     environment:
       - DB_USERNAME=${CDB_POSTGRES_USER}
       - DB_PASSWORD=${CDB_POSTGRES_PASSWORD}
@@ -288,7 +288,7 @@ services:
       - mgw-network
 
   mgw-notify:
-    image: ghcr.io/senergy-platform/mgw-notifier:prod
+    image: ghcr.io/senergy-platform/mgw-notifier:${MGW_ENVIRONMENT}
     environment:
       - DEBUG=${NOTI_DEBUG}
       - NOTIFICATION_URL=${NOTI_NOTIFICATION_URL}
@@ -299,7 +299,7 @@ services:
       - mgw-network
 
   mgw-process-sync-client:
-    image: ghcr.io/senergy-platform/mgw-process-sync-client:prod
+    image: ghcr.io/senergy-platform/mgw-process-sync-client:${MGW_ENVIRONMENT}
     environment:
       - CAMUNDA_DB=postgres://${CDB_POSTGRES_USER}:${CDB_POSTGRES_PASSWORD}@camunda-db/camunda?sslmode=disable
       - CAMUNDA_URL=http://camunda:8080
@@ -317,7 +317,7 @@ services:
       - mgw-network
 
   mgw-external-task-worker:
-    image: ghcr.io/senergy-platform/mgw-external-task-worker:prod
+    image: ghcr.io/senergy-platform/mgw-external-task-worker:${MGW_ENVIRONMENT}
     environment:
       - COMPLETION_STRATEGY=${ETW_COMPLETION_STRATEGY}
       - CAMUNDA_TOPIC=${ETW_CAMUNDA_TOPIC}
