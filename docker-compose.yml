@@ -236,27 +236,6 @@ services:
     networks:
       - mgw-network
 
-  z-way-cc:
-    container_name: z-way-cc
-    image: ghcr.io/senergy-platform/z-way-cc:${MGW_ENVIRONMENT}
-    expose:
-      - 8083
-    ports:
-      - 8083:8083
-    volumes:
-      - z-way-config:/opt/z-way-server/config
-      - z-way-automation-storage:/opt/z-way-server/automation/storage
-      - z-way-htdocs-smarthome-user:/opt/z-way-server/htdocs/smarthome/user
-      - z-way-zddx:/opt/z-way-server/ZDDX
-    devices:
-      - '/dev/ttyAMA0:/dev/ttyAMA0'
-    restart: unless-stopped
-    depends_on:
-      - eclipse-mosquitto
-      - mgw-device-manager
-    networks:
-      - mgw-network
-
   camunda-db:
     image: postgres:11.2
     environment:
@@ -343,10 +322,6 @@ volumes:
   analytics-fog-master-data:
   analytics-fog-agent-data:
   zwave2mqtt_store:
-  z-way-config:
-  z-way-automation-storage:
-  z-way-htdocs-smarthome-user:
-  z-way-zddx:
   camunda-db-data:
   process-sync-client-data:
 
