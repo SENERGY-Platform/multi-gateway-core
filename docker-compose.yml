@@ -178,6 +178,7 @@ services:
       - CONF_SENERGY_DT_PURE_COOL_LINK=${DDC_CONF_SENERGY_DT_PURE_COOL_LINK}
     volumes:
       - ${MGW_CORE_PATH}/.host_ip:/opt/host_ip
+      - dyson-dc-data:/opt/storage
     depends_on:
       - eclipse-mosquitto
       - mgw-device-manager
@@ -324,6 +325,7 @@ volumes:
   zwave2mqtt_store:
   camunda-db-data:
   process-sync-client-data:
+  dyson-dc-data:
 
 networks:
   mgw-network:
