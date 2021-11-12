@@ -317,6 +317,25 @@ services:
     networks:
       - mgw-network
 
+  mgw-switchbotbluetooth-dc:
+    container_name: mgw-switchbotbluetooth-dc
+    image: ghcr.io/senergy-platform/mgw-switchbotbluetooth-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_LOGGER_LEVEL=${SBB_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_SCAN_DELAY=${SBB_CONF_DISCOVERY_SCAN_DELAY}
+      - CONF_DISCOVERY_DEVICE_ID_PREFIX=${SBB_CONF_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONF_DISCOVERY_COMMAND_RETRIES=${SBB_CONF_DISCOVERY_COMMAND_RETRIES}
+      - CONF_DISCOVERY_ADAPTER=${SBB_CONF_DISCOVERY_ADAPTER}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+      - zwave2mqtt
+    restart: unless-stopped
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
