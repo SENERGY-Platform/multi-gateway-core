@@ -337,6 +337,27 @@ services:
     networks:
       - mgw-network
 
+  mgw-kasa-dc:
+    container_name: mgw-kasa-dc
+    image: ghcr.io/senergy-platform/mgw-kasa-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_LOGGER_LEVEL=${KASA_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_SCAN_DELAY=${KASA_CONF_DISCOVERY_SCAN_DELAY}
+      - CONF_DISCOVERY_DEVICE_ID_PREFIX=${KASA_CONF_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONF_DISCOVERY_TIMEOUT=${KASA_CONF_DISCOVERY_TIMEOUT}
+      - CONF_DISCOVERY_SUBNET=${KASA_CONF_DISCOVERY_SUBNET}
+      - CONF_DISCOVERY_IP_LIST=${KASA_CONF_DISCOVERY_IP_LIST}
+      - CONF_DISCOVERY_NUM_WORKERS=${KASA_CONF_DISCOVERY_NUM_WORKERS}
+      - CONF_CLIENT_KEEPALIVE=${KASA_CONF_CLIENT_KEEPALIVE}
+      - CONF_SENERGY_EVENTS_STATUS_SECONDS=${KASA_CONF_SENERGY_EVENTS_STATUS_SECONDS}
+      - CONF_SENERGY_EVENTS_ENERGY_SECONDS=${KASA_CONF_SENERGY_EVENTS_ENERGY_SECONDS}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
