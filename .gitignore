@@ -3,3 +3,4 @@ logs
 eclipse-mosquitto-config/certs
 .rd_flag
 .host_ip
+.idea

@@ -107,6 +107,16 @@ conf_vars=(
     "KASA_CONF_CLIENT_KEEPALIVE=30"
     "KASA_CONF_SENERGY_EVENTS_STATUS_SECONDS=600"
     "KASA_CONF_SENERGY_EVENTS_ENERGY_SECONDS=30"
+    "MQTT_DC_CONF_MQTT_BROKER=tcp://message-broker:1883"
+    "MQTT_DC_CONF_MQTT_USER="
+    "MQTT_DC_CONF_MQTT_PW="
+    "MQTT_DC_CONF_MQTT_CMD_CLIENT_ID=mgw-mqtt-dc-cmd"
+    "MQTT_DC_CONF_MQTT_EVENT_CLIENT_ID=mgw-mqtt-dc-event"
+    "MQTT_DC_CONF_GENERATOR_USE=true"
+    "MQTT_DC_CONF_GENERATOR_AUTH_ENDPOINT=https://auth.senergy.infai.org"
+    "MQTT_DC_CONF_GENERATOR_PERMISSION_SEARCH_URL=https://api.senergy.infai.org/permissions/query"
+    "MQTT_DC_CONF_GENERATOR_DEVICE_REPOSITORY_URL=https://api.senergy.infai.org/device-repository"
+    "MQTT_DC_CONF_GENERATOR_TRUNCATE_DEVICE_PREFIX="
 )
 
 

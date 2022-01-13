@@ -358,6 +358,31 @@ services:
     networks:
       - mgw-network
 
+  mgw-mqtt-dc:
+    container_name: mgw-mqtt-dc
+    image: ghcr.io/senergy-platform/mgw-mqtt-dc:${MGW_ENVIRONMENT}
+    environment:
+      - MGW_MQTT_BROKER=tcp://message-broker:1883
+      - MGW_MQTT_CLIENT_ID=mgw-mqtt-dc
+      - MQTT_BROKER=${MQTT_DC_CONF_MQTT_BROKER}
+      - MQTT_USER=${MQTT_DC_CONF_MQTT_USER}
+      - MQTT_PW=${MQTT_DC_CONF_MQTT_PW}
+      - MQTT_CMD_CLIENT_ID=${MQTT_DC_CONF_MQTT_CMD_CLIENT_ID}
+      - MQTT_EVENT_CLIENT_ID=${MQTT_DC_CONF_MQTT_EVENT_CLIENT_ID}
+      - GENERATOR_USE=${MQTT_DC_CONF_GENERATOR_USE}
+      - GENERATOR_AUTH_USERNAME=${SC_CC_LIB_CREDENTIALS_USER}
+      - GENERATOR_AUTH_PASSWORD=${SC_CC_LIB_CREDENTIALS_PW}
+      - GENERATOR_AUTH_ENDPOINT=${MQTT_DC_CONF_GENERATOR_AUTH_ENDPOINT}
+      - GENERATOR_PERMISSION_SEARCH_URL=${MQTT_DC_CONF_GENERATOR_PERMISSION_SEARCH_URL}
+      - GENERATOR_DEVICE_REPOSITORY_URL=${MQTT_DC_CONF_GENERATOR_DEVICE_REPOSITORY_URL}
+      - GENERATOR_TRUNCATE_DEVICE_PREFIX=${MQTT_DC_CONF_GENERATOR_TRUNCATE_DEVICE_PREFIX}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
