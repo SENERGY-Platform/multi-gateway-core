@@ -192,23 +192,6 @@ services:
     networks:
       - mgw-network
 
-  gosund-dc:
-    container_name: gosund-dc
-    image: ghcr.io/senergy-platform/gosund-dc:${MGW_ENVIRONMENT}
-    environment:
-      - CONF_MB_HOST=message-broker
-      - CONF_MB_PORT=1883
-      - CONF_LOGGER_LEVEL=${GC_CONF_LOGGER_LEVEL}
-      - CONF_DEVICES_TYPE=${GC_CONF_DEVICES_TYPE}
-      - CONF_DEVICES_LW_TOPIC=${GC_CONF_DEVICES_LW_TOPIC}
-      - MODULE_ID=${GC_GOSUND_PREFIX}
-    depends_on:
-      - eclipse-mosquitto
-      - mgw-device-manager
-    restart: unless-stopped
-    networks:
-      - mgw-network
-
   zwave2mqtt:
     container_name: zwave2mqtt
     image: robertslando/zwave2mqtt:latest
