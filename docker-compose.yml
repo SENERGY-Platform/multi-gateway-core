@@ -297,6 +297,7 @@ services:
       - MQTT_BROKER=tcp://message-broker:1883
       - DEVICE_REPO_URL=${ETW_DEVICE_REPO_URL}
       - DEBUG=${ETW_DEBUG}
+      - PERMISSIONS_URL=${ETW_PERMISSIONS_SEARCH_URL}
     restart: unless-stopped
     depends_on:
       - camunda-db

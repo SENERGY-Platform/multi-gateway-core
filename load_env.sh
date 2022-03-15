@@ -90,6 +90,7 @@ conf_vars=(
     "ETW_AUTH_USER_NAME="
     "ETW_AUTH_PASSWORD="
     "ETW_DEVICE_REPO_URL="
+    "ETW_PERMISSIONS_SEARCH_URL=https://api.senergy.infai.org/permissions/query"
     "ETW_DEBUG=false"
     "SBB_CONF_LOGGER_LEVEL=info"
     "SBB_CONF_DISCOVERY_SCAN_DELAY=1800"
