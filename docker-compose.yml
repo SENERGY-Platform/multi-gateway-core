@@ -372,6 +372,26 @@ services:
     networks:
       - mgw-network
 
+  mgw-senec-dc:
+    container_name: mgw-senec-dc
+    image: ghcr.io/senergy-platform/mgw-senec-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_LOGGER_LEVEL=${SENEC_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_SCAN_DELAY=${SENEC_CONF_DISCOVERY_SCAN_DELAY}
+      - CONF_DISCOVERY_DEVICE_ID_PREFIX=${SENEC_CONF_DISCOVERY_DEVICE_ID_PREFIX}
+      - CONF_DISCOVERY_TIMEOUT=${SENEC_CONF_DISCOVERY_TIMEOUT}
+      - CONF_DISCOVERY_SUBNET=${SENEC_CONF_DISCOVERY_SUBNET}
+      - CONF_DISCOVERY_IP_LIST=${SENEC_CONF_DISCOVERY_IP_LIST}
+      - CONF_DISCOVERY_NUM_WORKERS=${SENEC_CONF_DISCOVERY_NUM_WORKERS}
+      - CONF_CLIENT_KEEPALIVE=${SENEC_CONF_CLIENT_KEEPALIVE}
+      - CONF_SENERGY_EVENTS_ENERGY_SECONDS=${SENEC_CONF_SENERGY_EVENTS_ENERGY_SECONDS}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
