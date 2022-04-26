@@ -218,10 +218,13 @@ services:
       - UPDATE_PERIOD=${ZDC_UPDATE_PERIOD}
       - DELETE_MISSING_DEVICES=${ZDC_DELETE_MISSING_DEVICES}
       - DELETE_HUSKS=${ZDC_DELETE_HUSKS}
+      - ZWAVE_MQTT_BROKER=${ZDC_ZWAVE_MQTT_BROKER}
+      - ZWAVE_MQTT_USER=${ZDC_ZWAVE_MQTT_USER}
+      - ZWAVE_MQTT_PW=${ZDC_ZWAVE_MQTT_PW}
+      - ZWAVE_MQTT_CLIENT_ID=${ZDC_ZWAVE_MQTT_CLIENT_ID}
     depends_on:
       - eclipse-mosquitto
       - mgw-device-manager
-      - zwave2mqtt
     restart: unless-stopped
     networks:
       - mgw-network
