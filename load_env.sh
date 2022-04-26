@@ -87,7 +87,6 @@ conf_vars=(
     "ZDC_MGW_MQTT_BROKER=tcp://message-broker:1883"
     "ZDC_MGW_MQTT_PW="
     "ZDC_MGW_MQTT_CLIENT_ID=mgw-zwave-dc_mgw"
-    "ZDC_UPDATE_PERIOD=15m"
     "ZDC_EVENTS_FOR_UNREGISTERED_DEVICES=false"
     "CDB_POSTGRES_USER=camunda"
     "CDB_POSTGRES_PASSWORD="
