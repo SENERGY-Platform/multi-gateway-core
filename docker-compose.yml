@@ -194,7 +194,7 @@ services:
 
   zwave2mqtt:
     container_name: zwave2mqtt
-    image: robertslando/zwave2mqtt:latest
+    image: ${Z2M_IMAGE}
     tty: true
     stop_signal: SIGINT
     ports:
@@ -225,6 +225,8 @@ services:
       - ZWAVE_VALUE_EVENT_TOPIC=${ZDC_ZWAVE_VALUE_EVENT_TOPIC}
       - ZWAVE_MQTT_API_TOPIC=${ZDC_ZWAVE_MQTT_API_TOPIC}
       - ZWAVE_NETWORK_EVENTS_TOPIC=${ZDC_ZWAVE_NETWORK_EVENTS_TOPIC}
+      - ZWAVE_MQTT_DEVICE_STATE_TOPIC=${ZDC_ZWAVE_VALUE_EVENT_TOPIC}
+      - ZWAVE_CONTROLLER=${ZDC_ZWAVE_CONTROLLER}
       - MGW_MQTT_BROKER=${ZDC_MGW_MQTT_BROKER}
       - MGW_MQTT_PW=${ZDC_MGW_MQTT_PW}
       - MGW_MQTT_CLIENT_ID=${ZDC_MGW_MQTT_CLIENT_ID}
