@@ -405,6 +405,28 @@ services:
     networks:
       - mgw-network
 
+  mgw-madoka-dc:
+    container_name: mgw-madoka-dc
+    image: ghcr.io/senergy-platform/mgw-madoka-dc:${MGW_ENVIRONMENT}
+    environment:
+      - MQTT_HOST=message-broker
+      - MQTT_PORT=1883
+      - MQTT_USER=""
+      - MQTT_PW=""
+      - MQTT_SSL=False
+      - MQTT_PREFIX=madoka
+      - MQTT_INTERVAL=${MADOKA_INTERVAL}
+      - MADOKA_MAC=${MADOKA_MAC}
+      - BT_ADAPTER=${MADOKA_BT_ADAPTER}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
