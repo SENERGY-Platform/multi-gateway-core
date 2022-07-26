@@ -427,6 +427,26 @@ services:
     networks:
       - mgw-network
 
+  mgw-tesla-dc:
+    container_name: mgw-tesla-dc
+    image: ghcr.io/senergy-platform/mgw-tesla-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_MSGBROKER_HOST=message-broker
+      - CONF_MSGBROKER_PORT=1883
+      - CONF_LOGGER_LEVEL=${TESLA_CONF_LOGGER_LEVEL}
+      - CONF_DISCOVERY_SCAN_DELAY=${TESLA_CONF_DISCOVERY_SCAN_DELAY}
+      - CONF_SENERGY_EVENTS_GET_VEHICLE_DATA_SECONDS=${TESLA_CONF_SENERGY_EVENTS_GET_VEHICLE_DATA_SECONDS}
+      - CONF_TESLA_EMAIL=${TESLA_CONF_TESLA_EMAIL}
+      - CONF_TESLA_RESFRESHTOKEN=${TESLA_CONF_TESLA_RESFRESHTOKEN}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    volumes:
+      - mgw-tesla-dc-data:/usr/src/app/.cache
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
@@ -437,6 +457,7 @@ volumes:
   camunda-db-data:
   process-sync-client-data:
   dyson-dc-data:
+  mgw-tesla-dc-data:
 
 networks:
   mgw-network:
