@@ -74,6 +74,7 @@ conf_vars=(
     "DDC_CONF_DISCOVERY_DEVICE_NAME="
     "DDC_CONF_DISCOVERY_DEVICE_WIFI_SSID="
     "DDC_CONF_DISCOVERY_DEVICE_WIFI_PASSWORD="
+    "DDC_CONF_SESSION_LOGGING="
     "Z2M_DEVICES_PATH="
     "Z2M_IMAGE=robertslando/zwave2mqtt:latest"
     #"Z2M_IMAGE=zwavejs/zwavejs2mqtt:latest"
