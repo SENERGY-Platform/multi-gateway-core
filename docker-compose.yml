@@ -451,6 +451,15 @@ services:
     networks:
       - mgw-network
 
+  mgw-advertiser:
+    container_name: mgw-advertiser
+    image: ghcr.io/senergy-platform/mgw-advertiser:${MGW_ENVIRONMENT}
+    environment:
+      - MGW_NAME_PREFIX=${ADVR_MGW_NAME_PREFIX}
+      - MGW_SERIAL=${ADVR_MGW_SERIAL}
+    restart: unless-stopped
+    network_mode: "host"
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
