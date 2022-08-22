@@ -494,6 +494,7 @@ services:
     depends_on:
       - eclipse-mosquitto
       - mgw-last-value
+      - mgw-advertiser
     ports:
       - "8002:8080"
     networks:
