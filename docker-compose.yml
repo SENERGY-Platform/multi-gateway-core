@@ -488,6 +488,11 @@ services:
       - DEVICE_REPOSITORY_URL=https://api.senergy.infai.org/device-repository
       - DEVICE_MANAGER_URL=https://api.senergy.infai.org/device-manager
       - PERMISSIONS_URL=https://api.senergy.infai.org/permissions/query
+      - OVERWRITE_AUTH_TOKEN=true
+      - AUTH_ENDPOINT=https://auth.senergy.infai.org
+      - AUTH_CLIENT_ID=${SC_CC_LIB_CREDENTIALS_CLIENT_ID}
+      - AUTH_USER_NAME=${SC_CC_LIB_CREDENTIALS_USER}
+      - AUTH_PASSWORD=${SC_CC_LIB_CREDENTIALS_PW}
     volumes:
       - mgw-device-command:/vol
     restart: unless-stopped
