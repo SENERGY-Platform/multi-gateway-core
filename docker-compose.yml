@@ -506,6 +506,23 @@ services:
     networks:
       - mgw-network
 
+  mgw-solmate-dc:
+    container_name: mgw-solmate-dc
+    image: ghcr.io/senergy-platform/mgw-solmate-dc:${MGW_ENVIRONMENT}
+    environment:
+      - CONF_MSGBROKER_HOST=message-broker
+      - CONF_MSGBROKER_PORT=1883
+      - CONF_DISCOVERY_IPS=${SOLMATE_DISCOVERY_IPS}
+      - CONF_LOGGER_LEVEL=${SOLMATE_CONF_LOGGER_LEVEL}
+      - CONF_SENERGY_EVENTS_LIVE_VALUES_SECONDS=${SOLMATE_EVENTS_LIVE_VALUES_SECONDS}
+      - CONF_SENERGY_EVENTS_INJECTION_SETTINGS_SECONDS=${SOLMATE_EVENTS_INJECTION_SETTINGS_SECONDS}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
