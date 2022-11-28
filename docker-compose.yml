@@ -523,6 +523,24 @@ services:
     networks:
       - mgw-network
 
+  mgw-ssh-dc:
+    container_name: mgw-ssh-dc
+    image: ghcr.io/senergy-platform/mgw-ssh-dc:${MGW_ENVIRONMENT}
+    environment:
+      - MGW_MQTT_BROKER=message-broker:1883
+      - HOSTS=${SSH_HOSTS}
+      - USERS=${SSH_USERS}
+      - DEVICE_TYPE_ID=urn:infai:ses:device-type:ada64e96-2f37-41d7-81b7-e695d0a39b78
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    volumes:
+      - ~/.ssh:/root/.ssh
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
+
 volumes:
   eclipse-mosquitto-data:
   eclipse-mosquitto-log:
