@@ -27,6 +27,7 @@ services:
       - CONF_MB_HOST=message-broker
       - CONF_MB_PORT=1883
       - CONF_LOGGER_LEVEL=${DM_CONF_LOGGER_LEVEL}
+      - GUNICORN_LOG=${DM_GUNICORN_LOG}
     depends_on:
       - eclipse-mosquitto
     restart: unless-stopped
