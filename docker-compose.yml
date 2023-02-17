@@ -303,6 +303,28 @@ services:
     networks:
       - mgw-network
 
+  mgw-event-worker:
+    image: ghcr.io/senergy-platform/event-worker:${MGW_ENVIRONMENT}
+    environment:
+      - MODE=fog
+      - AUTH_ENDPOINT=${ETW_AUTH_ENDPOINT}
+      - AUTH_CLIENT_ID=client-connector-lib
+      - AUTH_USER_NAME=${ETW_AUTH_USER_NAME}
+      - AUTH_PASSWORD=${ETW_AUTH_PASSWORD}
+      - DEVICE_REPO_URL=${ETW_DEVICE_REPO_URL}
+      - NOTIFICATION_URL=http://mgw-notify:8080
+      - EVENT_TRIGGER_URL=http://camunda:8080/engine-rest/message
+      - MGW_MQTT_PW=
+      - MGW_MQTT_USER=
+      - MGW_MQTT_CLIENT_ID=mgw-event-worker
+      - MGW_MQTT_BROKER=tcp://message-broker:1883
+      - MGW_PROCESS_SYNC_CLIENT_URL=http://mgw-process-sync-client:8080
+    restart: unless-stopped
+    depends_on:
+      - mgw-process-sync-client
+    networks:
+      - mgw-network
+
   mgw-external-task-worker:
     image: ghcr.io/senergy-platform/mgw-external-task-worker:${MGW_ENVIRONMENT}
     environment:
