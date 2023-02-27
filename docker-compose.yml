@@ -339,6 +339,7 @@ services:
       - DEVICE_REPO_URL=${ETW_DEVICE_REPO_URL}
       - DEBUG=${ETW_DEBUG}
       - PERMISSIONS_URL=${ETW_PERMISSIONS_SEARCH_URL}
+      - TIMESCALE_WRAPPER_URL=http://mgw-last-value:8080
     restart: unless-stopped
     depends_on:
       - camunda-db
