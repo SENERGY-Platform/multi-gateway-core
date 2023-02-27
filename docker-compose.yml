@@ -282,6 +282,7 @@ services:
       - AUTH_ENDPOINT=${NOTI_AUTH_ENDPOINT}
       - AUTH_USER_NAME=${NOTI_AUTH_USER_NAME}
       - AUTH_PASSWORD=${NOTI_AUTH_PASSWORD}
+    restart: unless-stopped
     networks:
       - mgw-network
 
