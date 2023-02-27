@@ -258,7 +258,7 @@ services:
       - mgw-network
 
   camunda:
-    image: ghcr.io/senergy-platform/process-engine:arm-${MGW_ENVIRONMENT}
+    image: ghcr.io/senergy-platform/process-engine:${MGW_ENVIRONMENT}
     environment:
       - DB_USERNAME=${CDB_POSTGRES_USER}
       - DB_PASSWORD=${CDB_POSTGRES_PASSWORD}
