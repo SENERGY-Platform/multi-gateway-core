@@ -244,6 +244,31 @@ services:
     networks:
       - mgw-network
 
+  mgw-zigbee-dc:
+    container_name: mgw-zigbee-dc
+    image: ghcr.io/senergy-platform/mgw-zigbee-dc:${MGW_ENVIRONMENT}
+    environment:
+      - MGW_MQTT_BROKER=${ZBDC_MGW_MQTT_BROKER}
+      - MGW_USER=${ZBDC_MGW_MQTT_USER}
+      - MGW_MQTT_PW=${ZBDC_MGW_MQTT_PW}
+      - MGW_MQTT_CLIENT_ID=${ZBDC_MGW_MQTT_CLIENT_ID}
+      - ZIGBEE_MQTT_BROKER=${ZBDC_ZIGBEE_MQTT_BROKER}
+      - ZIGBEE_MQTT_USER=${ZBDC_ZIGBEE_MQTT_USER}
+      - ZIGBEE_MQTT_PW=${ZBDC_ZIGBEE_MQTT_PW}
+      - ZIGBEE_MQTT_CLIENT_ID=${ZBDC_ZIGBEE_MQTT_CLIENT_ID}
+      - AUTH_USERNAME=${SC_CC_LIB_CREDENTIALS_USER}
+      - AUTH_PASSWORD=${SC_CC_LIB_CREDENTIALS_PW}
+      - AUTH_ENDPOINT=${ZBDC_AUTH_ENDPOINT}
+      - PERMISSIONS_SEARCH_URL=${ZBDC_PERMISSIONS_SEARCH_URL}
+      - DEVICE_ID_PREFIX=${ZBDC_DEVICE_ID_PREFIX}
+      - ZIGBEE_MQTT_TOPIC_PREFIX=${ZBDC_ZIGBEE_MQTT_TOPIC_PREFIX}
+    depends_on:
+      - eclipse-mosquitto
+      - mgw-device-manager
+    restart: unless-stopped
+    networks:
+      - mgw-network
+
   camunda-db:
     image: postgres:11.2
     environment:
