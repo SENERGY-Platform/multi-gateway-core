@@ -237,6 +237,7 @@ services:
       - MGW_MQTT_PW=${ZDC_MGW_MQTT_PW}
       - MGW_MQTT_CLIENT_ID=${ZDC_MGW_MQTT_CLIENT_ID}
       - EVENTS_FOR_UNREGISTERED_DEVICES=${ZDC_EVENTS_FOR_UNREGISTERED_DEVICES}
+      - CREATE_MISSING_DEVICE_TYPES=${ZDC_CREATE_MISSING_DEVICE_TYPES}
     depends_on:
       - eclipse-mosquitto
       - mgw-device-manager

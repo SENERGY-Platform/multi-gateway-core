@@ -110,6 +110,7 @@ conf_vars=(
     "ZDC_MGW_MQTT_PW="
     "ZDC_MGW_MQTT_CLIENT_ID=mgw-zwave-dc_mgw"
     "ZDC_EVENTS_FOR_UNREGISTERED_DEVICES=false"
+    "ZDC_CREATE_MISSING_DEVICE_TYPES=false"
     "CDB_POSTGRES_USER=camunda"
     "CDB_POSTGRES_PASSWORD="
     "NOTI_DEBUG=false"
