@@ -369,7 +369,7 @@ services:
     image: ghcr.io/senergy-platform/process-io-worker:${MGW_ENVIRONMENT}
     environment:
       - IO_DATA_SOURCE=postgres
-      - POSTGRES_CON_STRING=postgres://processio:processio@mgw-process-io-db:5432/processio?sslmode=disable
+      - POSTGRES_CONN_STRING=postgres://processio:processio@mgw-process-io-db:5432/processio?sslmode=disable
       - CAMUNDA_URL=http://camunda:8080
       - INCIDENT_HANDLER=mgw
       - MGW_MQTT_BROKER=tcp://message-broker:1883
