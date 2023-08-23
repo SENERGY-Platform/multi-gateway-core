@@ -3,7 +3,7 @@ version: "3"
 services:
   eclipse-mosquitto:
     container_name: eclipse-mosquitto
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.0.17
     volumes:
       - ${MGW_CORE_PATH}/eclipse-mosquitto-config:/mosquitto/config
       - eclipse-mosquitto-data:/mosquitto/data
